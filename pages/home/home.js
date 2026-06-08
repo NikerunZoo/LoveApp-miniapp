@@ -60,7 +60,8 @@ Page({
       try {
         const partnerId = couple.user1_id === user.id ? couple.user2_id : couple.user1_id;
         if (partnerId) {
-          const partner = await supabase.from('profiles').select('nickname,mood_emoji').eq('id', partnerId).single().fetch();
+          const partnerRes = await supabase.from('profiles').select('nickname,mood_emoji').eq('id', partnerId).fetch();
+          const partner = Array.isArray(partnerRes) ? partnerRes[0] : partnerRes;
           this.setData({ partnerName: partner.nickname || 'TA', partnerMood: partner.mood_emoji || '😊' });
         }
       } catch (e) { /* ignore */ }

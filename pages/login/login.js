@@ -37,6 +37,7 @@ Page({
         // 注册完需要重新登录获取 token
         const loginRes = await supabase.signIn(email, password);
         updateGlobalState(app, loginRes);
+        await loadCouple(app);
       } else {
         const res = await supabase.signIn(email, password);
         updateGlobalState(app, res);
