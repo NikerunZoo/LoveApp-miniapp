@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>LoveApp Icon Generator</title></head>
+<body style="text-align:center; font-family:sans-serif; padding-top:40px;">
+  <h3>右键点下方图标 → 另存为图片 → 上传到小程序后台</h3>
+  <canvas id="c" width="512" height="512" style="border-radius:96px; box-shadow:0 8px 32px rgba(0,0,0,0.15);"></canvas>
+  <script>
+    const c = document.getElementById('c'), ctx = c.getContext('2d');
+    // 天空蓝渐变背景
+    const g = ctx.createLinearGradient(0, 0, 0, 512);
+    g.addColorStop(0, '#7EC8E3'); g.addColorStop(1, '#A8D8EA');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, 512, 512);
+    // 白色爱心
+    ctx.fillStyle = 'white';
+    ctx.font = '260px Arial'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('💕', 256, 256);
+  </script>
+</body>
+</html>
