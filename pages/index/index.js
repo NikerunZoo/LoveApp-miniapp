@@ -3,15 +3,25 @@ const supabase = require('../../utils/supabase.js');
 const logger = require('../../utils/logger.js');
 const app = getApp();
 
+// 生成 UUID v4（兼容 Supabase UUID 列类型）
 function generateId() {
-  return 'wx_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random() * 16 | 0;
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
 }
 
 Page({
   async onLoad() {
     let userId = wx.getStorageSync('love_user_id');
 
-    // 新用户：生成一个唯一ID
+    // 兼容旧格式（非 UUID 的旧数据）
+    if (userId && !userId.match(/^[0-9a-f-]{36}$/)) {
+      wx.removeStorageSync('love_user_id');
+      userId = null;
+    }
+
+    // 新用户：生成 UUID
     if (!userId) {
       userId = generateId();
       wx.setStorageSync('love_user_id', userId);
