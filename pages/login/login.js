@@ -62,13 +62,23 @@ async function loadCouple(app) {
   try {
     const userId = app.globalData.currentUser?.id;
     if (!userId) return;
-    const profile = await supabase.from('profiles').select('couple_id,nickname,mood_emoji').eq('id', userId).single().fetch();
-    if (profile.couple_id) {
-      const couple = await supabase.from('couple').select('*').eq('id', profile.couple_id).single().fetch();
+    logger.start('[Login] loadCouple', { userId });
+
+    // 查询用户的 profile（去掉 .single()，用数组取第一个）
+    const profiles = await supabase.from('profiles').select('couple_id,nickname,mood_emoji').eq('id', userId).fetch();
+    const profile = Array.isArray(profiles) ? profiles[0] : profiles;
+    logger.log('[Login] loadCouple profile', { profile });
+
+    if (profile && profile.couple_id) {
+      const couples = await supabase.from('couple').select('*').eq('id', profile.couple_id).fetch();
+      const couple = Array.isArray(couples) ? couples[0] : couples;
       if (couple) {
         app.globalData.couple = couple;
         app.globalData.isPaired = true;
+        logger.log('[Login] loadCouple 配对已恢复', { coupleId: couple.id });
       }
+    } else {
+      logger.log('[Login] loadCouple 无配对关系');
     }
   } catch (e) { logger.error('[Login] loadCouple', e); }
 }
