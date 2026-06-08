@@ -1,0 +1,26 @@
+<view class="container">
+  <view class="tab-bar">
+    <view class="tab {{tab===0?'active':''}}" data-tab="0" bindtap="switchTab">收件箱</view>
+    <view class="tab {{tab===1?'active':''}}" data-tab="1" bindtap="switchTab">发出的</view>
+    <view class="tab {{tab===2?'active':''}}" data-tab="2" bindtap="switchTab">⭐收藏</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty">加载中...</view>
+  <view wx:elif="{{tab===0 && received.length===0}}" class="empty">还没有收到纸条</view>
+  <view wx:elif="{{tab===1 && sent.length===0}}" class="empty">还没有发过纸条</view>
+  <view wx:elif="{{tab===2 && starred.length===0}}" class="empty">还没有收藏的纸条</view>
+
+  <block wx:for="{{tab===0 ? received : tab===1 ? sent : starred}}" wx:key="id">
+    <view class="note-card" data-note="{{item}}" bindtap="markRead" bindlongpress="toggleStar">
+      <view class="note-head">
+        <text>{{item.is_starred ? '⭐ ' : ''}}{{item.content}}</text>
+      </view>
+      <view class="note-foot">
+        <text wx:if="{{!item.is_read && tab===0}}" class="unread">● 未读</text>
+        <text class="note-time">{{item.created_at}}</text>
+      </view>
+    </view>
+  </block>
+
+  <view class="fab" bindtap="goCompose">✏️</view>
+</view>

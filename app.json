@@ -1,0 +1,24 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/pair/pair",
+    "pages/home/home",
+    "pages/diary/diary",
+    "pages/diary-compose/diary-compose",
+    "pages/note/note",
+    "pages/note-compose/note-compose",
+    "pages/album/album",
+    "pages/anniversary/anniversary",
+    "pages/scan/scan"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#7EC8E3",
+    "navigationBarTitleText": "属于我们",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#FFFFFF"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

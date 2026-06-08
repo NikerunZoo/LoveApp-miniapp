@@ -1,0 +1,8 @@
+.toolbar { margin-bottom: 24rpx; }
+.photo-grid { display: flex; flex-wrap: wrap; gap: 12rpx; }
+.photo-item { width: calc(33.33% - 8rpx); position: relative; border-radius: 16rpx; overflow: hidden; }
+.photo-img { width: 100%; height: 240rpx; }
+.photo-tag { position: absolute; top: 8rpx; right: 8rpx; background: rgba(0,0,0,0.4); color: white; font-size: 20rpx; padding: 4rpx 12rpx; border-radius: 8rpx; }
+.hint { text-align: center; color: #8E9AAF; font-size: 24rpx; padding: 20rpx; }
+.empty { text-align: center; color: #8E9AAF; padding: 120rpx 0; }
+.empty-emoji { font-size: 128rpx; display: block; margin-bottom: 32rpx; }

@@ -1,0 +1,31 @@
+<view class="pair-page">
+  <view class="tab-bar">
+    <view class="tab {{tab===0?'active':''}}" data-tab="0" bindtap="switchTab">创建配对</view>
+    <view class="tab {{tab===1?'active':''}}" data-tab="1" bindtap="switchTab">加入配对</view>
+  </view>
+
+  <!-- 创建配对 -->
+  <view wx:if="{{tab===0}}" class="pair-content">
+    <block wx:if="{{!hasCreated}}">
+      <picker mode="date" value="{{startDate}}" bindchange="bindDateChange">
+        <view class="date-picker">📅 开始日期: {{startDate}}</view>
+      </picker>
+      <button class="btn-primary" loading="{{isCreating}}" bindtap="createPair">创建配对</button>
+    </block>
+    <block wx:else>
+      <view class="code-box">
+        <text class="code-label">你的配对码</text>
+        <text class="code">{{pairCode}}</text>
+        <text class="code-hint">3 分钟内有效</text>
+      </view>
+      <button class="btn-outline" bindtap="copyCode">复制配对码</button>
+    </block>
+  </view>
+
+  <!-- 加入配对 -->
+  <view wx:if="{{tab===1}}" class="pair-content">
+    <input class="code-input" maxlength="6" placeholder="输入 6 位配对码" value="{{joinCode}}" bindinput="e => joinCode = e.detail.value" />
+    <button class="btn-primary" bindtap="joinPair">加入配对</button>
+    <button class="btn-outline" bindtap="goScan" style="margin-top:24rpx;">📷 扫码加入</button>
+  </view>
+</view>

@@ -1,0 +1,10 @@
+@import '/app.wxss';
+.tab-bar { display: flex; background: #D4EEF5; border-radius: 24rpx; margin-bottom: 24rpx; }
+.tab { flex: 1; text-align: center; padding: 20rpx; font-size: 28rpx; color: #8E9AAF; border-radius: 24rpx; }
+.tab.active { background: #7EC8E3; color: white; }
+.note-card { background: white; border-radius: 24rpx; padding: 28rpx; margin-bottom: 16rpx; box-shadow: 0 4rpx 12rpx rgba(212,238,245,0.4); }
+.note-head { font-size: 30rpx; line-height: 1.5; }
+.note-foot { display: flex; justify-content: space-between; margin-top: 12rpx; font-size: 24rpx; color: #8E9AAF; }
+.unread { color: #FF6B8A; }
+.empty { text-align: center; color: #8E9AAF; font-size: 28rpx; padding: 80rpx 0; }
+.fab { position: fixed; bottom: 80rpx; right: 40rpx; width: 96rpx; height: 96rpx; background: #FF6B8A; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 44rpx; color: white; box-shadow: 0 8rpx 24rpx rgba(255,107,138,0.4); }

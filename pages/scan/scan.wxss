@@ -1,0 +1,2 @@
+.scan-page { display: flex; align-items: center; justify-content: center; height: 100vh; background: #000; }
+.hint { color: rgba(255,255,255,0.7); font-size: 28rpx; }

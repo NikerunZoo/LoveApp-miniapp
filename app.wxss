@@ -1,0 +1,41 @@
+/* 全局样式 — 天空蓝配色 */
+page {
+  background-color: #FFFFFF;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  color: #2D3E4F;
+}
+.container { padding: 20rpx; }
+.primary-bg { background-color: #7EC8E3; }
+.primary-text { color: #7EC8E3; }
+.accent-text { color: #FF6B8A; }
+.text-light { color: #8E9AAF; }
+.text-dark { color: #2D3E4F; }
+.card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(212, 238, 245, 0.4);
+}
+.gradient-header {
+  background: linear-gradient(180deg, #7EC8E3, #A8D8EA);
+  border-radius: 0 0 48rpx 48rpx;
+}
+.btn-primary {
+  background: #7EC8E3;
+  color: white;
+  border-radius: 24rpx;
+  padding: 24rpx;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+.btn-accent {
+  background: #FF6B8A;
+  color: white;
+  border-radius: 24rpx;
+  padding: 24rpx;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 600;
+}

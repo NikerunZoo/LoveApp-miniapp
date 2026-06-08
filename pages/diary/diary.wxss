@@ -1,0 +1,9 @@
+.diary-card { background: white; border-radius: 24rpx; padding: 28rpx; margin-bottom: 16rpx; box-shadow: 0 4rpx 12rpx rgba(212,238,245,0.4); }
+.diary-head { display: flex; gap: 12rpx; font-size: 36rpx; margin-bottom: 12rpx; }
+.diary-who { font-size: 24rpx; color: #8E9AAF; }
+.diary-content { font-size: 30rpx; line-height: 1.6; display: block; }
+.diary-time { font-size: 22rpx; color: #8E9AAF; margin-top: 12rpx; display: block; }
+.hint { text-align: center; color: #8E9AAF; font-size: 24rpx; padding: 20rpx; }
+.empty { text-align: center; color: #8E9AAF; padding: 120rpx 0; }
+.empty-emoji { font-size: 128rpx; display: block; margin-bottom: 32rpx; }
+.fab { position: fixed; bottom: 80rpx; right: 40rpx; width: 96rpx; height: 96rpx; background: #FF6B8A; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 44rpx; color: white; box-shadow: 0 8rpx 24rpx rgba(255,107,138,0.4); }

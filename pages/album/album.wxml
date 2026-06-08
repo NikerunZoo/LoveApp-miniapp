@@ -1,0 +1,14 @@
+<view class="container">
+  <view class="toolbar"><button class="btn-primary" bindtap="chooseImage">📷 上传照片</button></view>
+  <block wx:if="{{loading}}"><view class="empty">加载中...</view></block>
+  <block wx:elif="{{photos.length===0}}">
+    <view class="empty"><text class="empty-emoji">🖼️</text><text>还没有照片</text></view>
+  </block>
+  <view wx:else class="photo-grid">
+    <view wx:for="{{photos}}" wx:key="id" class="photo-item" data-photo="{{item}}" data-url="{{item.url}}" bindtap="preview" bindlongpress="deletePhoto">
+      <image class="photo-img" src="{{item.url}}" mode="aspectFill"></image>
+      <view class="photo-tag">{{item.user_id === currentUserId ? '我' : 'TA'}}</view>
+    </view>
+  </view>
+  <view class="hint" wx:if="{{photos.length>0}}">💡 长按照片可删除（仅自己的）</view>
+</view>
