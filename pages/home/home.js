@@ -26,8 +26,21 @@ Page({
   },
 
   async initData() {
-    const couple = app.globalData.couple;
+    let couple = app.globalData.couple;
     const user = app.globalData.currentUser;
+
+    // 兜底：如果没恢复，尝试重新加载
+    if (!couple && user) {
+      try {
+        const profiles = await supabase.from('profiles').select('couple_id').eq('id', user.id).fetch();
+        const p = Array.isArray(profiles) ? profiles[0] : profiles;
+        if (p && p.couple_id) {
+          const couples = await supabase.from('couple').select('*').eq('id', p.couple_id).fetch();
+          couple = Array.isArray(couples) ? couples[0] : couples;
+          if (couple) { app.globalData.couple = couple; app.globalData.isPaired = true; }
+        }
+      } catch (e) { logger.error('[Home] loadCouple', e); }
+    }
 
     if (user) {
       this.setData({ nickname: user.user_metadata?.nickname || user.email?.split('@')[0] || '我', email: user.email || '' });
