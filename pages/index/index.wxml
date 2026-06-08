@@ -1,6 +1,6 @@
 <!-- Splash 页 -->
 <view class="splash">
-  <view class="splash-content">
+  <view class="splash-center">
     <text class="splash-emoji">💕</text>
     <text class="splash-title">属于我们</text>
     <text class="splash-sub">两个人的小世界</text>

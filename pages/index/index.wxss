@@ -1,11 +1,7 @@
-.splash {
-  height: 100vh;
-  background: linear-gradient(180deg, #7EC8E3, #A8D8EA);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.splash-content { text-align: center; }
-.splash-emoji { font-size: 128rpx; display: block; }
-.splash-title { color: white; font-size: 56rpx; font-weight: bold; margin-top: 32rpx; display: block; }
-.splash-sub { color: rgba(255,255,255,0.7); font-size: 28rpx; margin-top: 16rpx; display: block; }
+.splash { display: flex; align-items: center; justify-content: center; height: 100vh; background: linear-gradient(160deg, #6DB8D4, #7EC8E3, #A8D8EA 70%, #D4EEF5); position: relative; overflow: hidden; }
+.splash::before { content: ''; position: absolute; width: 500rpx; height: 500rpx; background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%); top: -10%; right: -20%; border-radius: 50%; }
+.splash-center { text-align: center; position: relative; z-index: 1; }
+.splash-emoji { font-size: 120rpx; display: block; animation: float 3s ease-in-out infinite; }
+.splash-title { color: white; font-size: 60rpx; font-weight: 200; letter-spacing: 16rpx; display: block; margin-top: 32rpx; }
+.splash-sub { color: rgba(255,255,255,0.65); font-size: 28rpx; display: block; margin-top: 16rpx; }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16rpx); } }

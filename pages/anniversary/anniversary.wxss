@@ -1,15 +1,38 @@
-.main-card { background: linear-gradient(180deg,#7EC8E3,#A8D8EA); border-radius: 28rpx; padding: 48rpx; text-align: center; margin-bottom: 24rpx; }
-.main-emoji { font-size: 64rpx; display: block; }
-.main-title { color: white; font-size: 32rpx; font-weight: 600; display: block; margin-top: 16rpx; }
-.main-date { color: rgba(255,255,255,0.7); font-size: 26rpx; display: block; margin-top: 8rpx; }
-.main-stats { display: flex; justify-content: space-around; margin-top: 24rpx; }
-.stat { text-align: center; }
-.stat-val { color: white; font-size: 36rpx; font-weight: bold; display: block; }
-.stat-lbl { color: rgba(255,255,255,0.7); font-size: 24rpx; display: block; }
-.anniv-card { display: flex; align-items: center; padding: 28rpx; background: white; border-radius: 24rpx; margin-bottom: 12rpx; box-shadow: 0 4rpx 12rpx rgba(212,238,245,0.4); }
+.anniv-scroll { background: #F7F9FC; min-height: 100vh; padding: 28rpx; }
+.main-card {
+  background: linear-gradient(155deg, #6DB8D4 0%, #7EC8E3 40%, #A8D8EA 100%);
+  border-radius: 36rpx; padding: 48rpx; text-align: center;
+  margin-bottom: 28rpx;
+  box-shadow: 0 16rpx 48rpx rgba(126,200,227,0.3);
+  position: relative; overflow: hidden;
+}
+.main-card::after {
+  content: ''; position: absolute; top: -20%; right: -15%;
+  width: 300rpx; height: 300rpx;
+  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.main-emoji { font-size: 64rpx; display: block; position: relative; z-index: 1; }
+.main-title { color: white; font-size: 30rpx; font-weight: 600; display: block; margin-top: 12rpx; position: relative; z-index: 1; }
+.main-date { color: rgba(255,255,255,0.7); font-size: 26rpx; display: block; margin-top: 8rpx; position: relative; z-index: 1; }
+.main-edit { display: inline-block; color: rgba(255,255,255,0.7); font-size: 22rpx; margin-top: 12rpx; padding: 6rpx 20rpx; background: rgba(255,255,255,0.15); border-radius: 20rpx; position: relative; z-index: 1; }
+.main-stats { display: flex; justify-content: space-around; margin-top: 32rpx; position: relative; z-index: 1; }
+.main-stat { text-align: center; }
+.main-stat-val { color: white; font-size: 40rpx; font-weight: 200; display: block; }
+.main-stat-lbl { color: rgba(255,255,255,0.7); font-size: 24rpx; display: block; margin-top: 4rpx; }
+
+.anniv-item {
+  display: flex; align-items: center; padding: 28rpx;
+  background: white; border-radius: 28rpx; margin-bottom: 12rpx;
+  box-shadow: 0 2rpx 16rpx rgba(126,200,227,0.08);
+  gap: 28rpx;
+}
 .anniv-emoji { font-size: 48rpx; }
-.anniv-info { margin-left: 24rpx; }
+.anniv-info { flex: 1; }
 .anniv-name { font-size: 30rpx; font-weight: 600; display: block; }
-.anniv-date { font-size: 24rpx; color: #8E9AAF; display: block; margin-top: 6rpx; }
-.btn-outline { background: transparent; border: 2rpx solid #7EC8E3; color: #7EC8E3; border-radius: 24rpx; text-align: center; padding: 20rpx; font-size: 28rpx; margin-top: 16rpx; }
-.hint { text-align: center; color: #8E9AAF; font-size: 24rpx; padding: 20rpx; }
+.anniv-date-str { font-size: 24rpx; color: #8E9AAF; display: block; margin-top: 4rpx; }
+.anniv-days-badge {
+  background: linear-gradient(135deg, #7EC8E3, #A8D8EA);
+  color: white; padding: 12rpx 24rpx; border-radius: 24rpx;
+  font-size: 24rpx; white-space: nowrap;
+}

@@ -1,26 +1,33 @@
-<view class="container">
+<view class="note-scroll">
   <view class="tab-bar">
     <view class="tab {{tab===0?'active':''}}" data-tab="0" bindtap="switchTab">收件箱</view>
     <view class="tab {{tab===1?'active':''}}" data-tab="1" bindtap="switchTab">发出的</view>
     <view class="tab {{tab===2?'active':''}}" data-tab="2" bindtap="switchTab">⭐收藏</view>
   </view>
 
-  <view wx:if="{{loading}}" class="empty">加载中...</view>
-  <view wx:elif="{{tab===0 && received.length===0}}" class="empty">还没有收到纸条</view>
-  <view wx:elif="{{tab===1 && sent.length===0}}" class="empty">还没有发过纸条</view>
-  <view wx:elif="{{tab===2 && starred.length===0}}" class="empty">还没有收藏的纸条</view>
+  <view wx:if="{{loading}}" class="empty-state"><text class="emoji">📭</text><text class="title">加载中...</text></view>
+  <view wx:elif="{{tab===0 && received.length===0}}" class="empty-state"><text class="emoji">📭</text><text class="title">还没有收到纸条</text><text class="sub">等待TA的第一封来信吧</text></view>
+  <view wx:elif="{{tab===1 && sent.length===0}}" class="empty-state"><text class="emoji">💌</text><text class="title">还没有发过纸条</text><text class="sub">快去给TA写一封吧</text></view>
+  <view wx:elif="{{tab===2 && starred.length===0}}" class="empty-state"><text class="emoji">⭐</text><text class="title">还没有收藏的纸条</text><text class="sub">长按纸条可以收藏</text></view>
 
   <block wx:for="{{tab===0 ? received : tab===1 ? sent : starred}}" wx:key="id">
     <view class="note-card" data-note="{{item}}" bindtap="markRead" bindlongpress="toggleStar">
       <view class="note-head">
-        <text>{{item.is_starred ? '⭐ ' : ''}}{{item.content}}</text>
+        <view class="note-avatar {{tab===0 ? 'received' : 'sent'}}"><text>💬</text></view>
+        <view style="flex:1;">
+          <text style="display:block; font-size:30rpx; line-height:1.6;">{{item.is_starred ? '⭐ ' : ''}}{{item.content}}</text>
+        </view>
       </view>
       <view class="note-foot">
-        <text wx:if="{{!item.is_read && tab===0}}" class="unread">● 未读</text>
         <text class="note-time">{{item.created_at}}</text>
+        <view style="display:flex;gap:16rpx;align-items:center;">
+          <text wx:if="{{!item.is_read && tab===0}}" class="unread-badge">● 未读</text>
+          <text class="star-icon">{{item.is_starred ? '⭐' : '☆'}}</text>
+        </view>
       </view>
     </view>
   </block>
 
   <view class="fab" bindtap="goCompose">✏️</view>
+  <view style="height:120rpx;"></view>
 </view>

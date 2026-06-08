@@ -1,12 +1,23 @@
-.pair-page { padding: 32rpx; }
-.tab-bar { display: flex; background: #D4EEF5; border-radius: 24rpx; margin-bottom: 40rpx; }
-.tab { flex: 1; text-align: center; padding: 24rpx; font-size: 30rpx; color: #8E9AAF; border-radius: 24rpx; }
-.tab.active { background: #7EC8E3; color: white; }
-.pair-content { padding: 0 16rpx; }
-.date-picker { background: white; padding: 24rpx; border-radius: 24rpx; margin-bottom: 32rpx; font-size: 30rpx; }
-.code-box { background: linear-gradient(180deg,#7EC8E3,#A8D8EA); border-radius: 40rpx; padding: 60rpx; text-align: center; margin-bottom: 32rpx; }
-.code-label { color: rgba(255,255,255,0.7); font-size: 28rpx; display: block; }
-.code { color: white; font-size: 80rpx; font-weight: bold; letter-spacing: 16rpx; display: block; margin: 24rpx 0; }
+.pair-page { padding: 32rpx; min-height: 100vh; background: #F7F9FC; }
+.pair-content { padding: 40rpx 0; text-align: center; }
+.pair-content .emoji { font-size: 96rpx; display: block; margin-bottom: 24rpx; }
+.pair-content .title { font-size: 34rpx; font-weight: 600; display: block; margin-bottom: 12rpx; }
+.pair-content .sub { font-size: 26rpx; color: #8E9AAF; display: block; margin-bottom: 40rpx; }
+
+.date-picker { background: white; padding: 28rpx 32rpx; border-radius: 28rpx; margin: 0 0 32rpx; font-size: 30rpx; box-shadow: 0 2rpx 16rpx rgba(126,200,227,0.1); }
+
+.code-box {
+  background: linear-gradient(155deg, #6DB8D4, #7EC8E3, #A8D8EA);
+  border-radius: 40rpx; padding: 64rpx 40rpx; text-align: center; margin-bottom: 32rpx;
+  box-shadow: 0 12rpx 40rpx rgba(126,200,227,0.3);
+}
+.code-label { color: rgba(255,255,255,0.8); font-size: 28rpx; display: block; }
+.code { color: white; font-size: 88rpx; font-weight: 200; letter-spacing: 20rpx; display: block; margin: 24rpx 0; }
 .code-hint { color: rgba(255,255,255,0.5); font-size: 24rpx; display: block; }
-.code-input { background: white; padding: 32rpx; border-radius: 24rpx; text-align: center; font-size: 64rpx; letter-spacing: 24rpx; margin-bottom: 32rpx; }
-.btn-outline { background: transparent; border: 2rpx solid #7EC8E3; color: #7EC8E3; border-radius: 24rpx; padding: 24rpx; text-align: center; font-size: 30rpx; }
+
+.code-input {
+  background: white; padding: 36rpx; border-radius: 28rpx; text-align: center;
+  font-size: 64rpx; letter-spacing: 28rpx; margin-bottom: 32rpx;
+  box-shadow: 0 2rpx 16rpx rgba(126,200,227,0.1);
+}
+.join-btns { display: flex; flex-direction: column; gap: 16rpx; margin-top: 16rpx; }

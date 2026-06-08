@@ -1,10 +1,20 @@
-@import '/app.wxss';
-.tab-bar { display: flex; background: #D4EEF5; border-radius: 24rpx; margin-bottom: 24rpx; }
-.tab { flex: 1; text-align: center; padding: 20rpx; font-size: 28rpx; color: #8E9AAF; border-radius: 24rpx; }
-.tab.active { background: #7EC8E3; color: white; }
-.note-card { background: white; border-radius: 24rpx; padding: 28rpx; margin-bottom: 16rpx; box-shadow: 0 4rpx 12rpx rgba(212,238,245,0.4); }
-.note-head { font-size: 30rpx; line-height: 1.5; }
-.note-foot { display: flex; justify-content: space-between; margin-top: 12rpx; font-size: 24rpx; color: #8E9AAF; }
-.unread { color: #FF6B8A; }
-.empty { text-align: center; color: #8E9AAF; font-size: 28rpx; padding: 80rpx 0; }
-.fab { position: fixed; bottom: 80rpx; right: 40rpx; width: 96rpx; height: 96rpx; background: #FF6B8A; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 44rpx; color: white; box-shadow: 0 8rpx 24rpx rgba(255,107,138,0.4); }
+.note-scroll { background: #F7F9FC; min-height: 100vh; }
+.note-card {
+  background: white; border-radius: 28rpx; padding: 28rpx;
+  margin: 0 28rpx 16rpx; box-shadow: 0 2rpx 16rpx rgba(126,200,227,0.08);
+  transition: all 0.2s;
+  position: relative;
+}
+.note-card:active { transform: scale(0.985); }
+.note-head { font-size: 30rpx; line-height: 1.6; display: flex; align-items: flex-start; gap: 12rpx; }
+.note-avatar {
+  width: 72rpx; height: 72rpx; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36rpx; flex-shrink: 0;
+}
+.note-avatar.received { background: #FFF0F3; }
+.note-avatar.sent { background: #E8F4F8; }
+.note-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 16rpx; padding-top: 16rpx; border-top: 1rpx solid #F0F4F8; }
+.note-time { font-size: 24rpx; color: #B0BEC5; }
+.unread-badge { color: #FF6B8A; font-size: 22rpx; font-weight: 500; }
+.star-icon { font-size: 32rpx; }

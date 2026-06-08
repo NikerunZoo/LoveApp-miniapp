@@ -1,46 +1,86 @@
 <view class="home">
-  <!-- 计时器头部 -->
-  <view class="gradient-header timer">
-    <text class="timer-emoji">💕</text>
-    <text class="timer-label">我们在一起</text>
-    <text class="timer-days">{{daysTogether}}</text>
-    <text class="timer-day-label">天</text>
-    <text class="timer-date">{{startDateStr}} 起</text>
-  </view>
-
-  <!-- 三列小卡片 -->
-  <view class="info-row">
-    <view class="info-chip"><text class="info-emoji">🎂</text><text class="info-val">{{anniversary}}天</text><text class="info-lbl">纪念日</text></view>
-    <view class="info-chip"><text class="info-emoji">💝</text><text class="info-val">{{partnerName}}</text><text class="info-lbl">对方</text></view>
-    <view class="info-chip"><text class="info-emoji">{{partnerMood}}</text><text class="info-val">心情</text><text class="info-lbl">对方心情</text></view>
-  </view>
-
-  <!-- 我的心情 -->
-  <view class="card mood-card">
-    <text class="mood-title">今天心情怎么样？</text>
-    <view class="mood-list" wx:for="{{['😍','😊','😐','😔','😤','🥰','😴','🎉']}}" wx:key="*this">
-      <view class="mood-item {{moodEmoji === item ? 'active' : ''}}" data-mood="{{item}}" bindtap="setMood">{{item}}</view>
+  <!-- 计时器头部 —— 浪漫渐变 -->
+  <view class="timer-section">
+    <view class="timer-glow"></view>
+    <text class="timer-label">💕 我们在一起</text>
+    <view class="timer-days-row">
+      <text class="timer-number">{{daysTogether}}</text>
+      <text class="timer-unit">天</text>
     </view>
+    <text class="timer-date">{{startDateStr}} 起</text>
+    <view class="timer-wave">
+      <view class="wave"></view><view class="wave"></view><view class="wave"></view>
+    </view>
+  </view>
+
+  <!-- 三列信息卡 -->
+  <view class="info-strip">
+    <view class="info-item">
+      <text class="info-emoji">🎂</text>
+      <text class="info-value">{{anniversary}}天</text>
+      <text class="info-label">纪念日</text>
+    </view>
+    <view class="info-divider"></view>
+    <view class="info-item">
+      <text class="info-emoji">💝</text>
+      <text class="info-value">{{partnerName}}</text>
+      <text class="info-label">对方</text>
+    </view>
+    <view class="info-divider"></view>
+    <view class="info-item">
+      <text class="info-emoji">{{partnerMood}}</text>
+      <text class="info-value">心情</text>
+      <text class="info-label">TA的心情</text>
+    </view>
+  </view>
+
+  <!-- 心情选择 -->
+  <view class="section-title">✨ 今天的心情</view>
+  <view class="mood-grid">
+    <view wx:for="{{['😍','😊','🥰','😐','😔','😤','😴','🎉']}}" wx:key="*this"
+      class="mood-chip {{moodEmoji === item ? 'active' : ''}}" data-mood="{{item}}" bindtap="setMood">{{item}}</view>
   </view>
 
   <!-- 每日情话 -->
-  <view class="card quote-card">
-    <view class="quote-header"><text>💬 每日情话</text><text class="refresh" bindtap="refreshQuote">🔄</text></view>
-    <text class="quote-text">{{dailyQuote}}</text>
+  <view class="quote-card">
+    <view class="quote-inner">
+      <text class="quote-icon">💌</text>
+      <text class="quote-text">{{dailyQuote}}</text>
+      <view class="quote-refresh" bindtap="refreshQuote">
+        <text>🔄 换一句</text>
+      </view>
+    </view>
   </view>
 
-  <!-- 功能入口 2x2 -->
+  <!-- 功能入口 -->
+  <view class="section-title">📋 我们的故事</view>
   <view class="nav-grid">
-    <view class="nav-item" bindtap="goDiary"><text class="nav-emoji">📝</text><text class="nav-name">恋爱日记</text><text class="nav-desc">记录甜蜜日常</text></view>
-    <view class="nav-item" bindtap="goNote">
-      <text class="nav-emoji">💌</text><text class="nav-name">小纸条</text>
-      <text class="nav-desc"><text wx:if="{{unreadCount > 0}}">未读 {{unreadCount}}</text><text wx:else>收发纸条</text></text>
+    <view class="nav-card" bindtap="goDiary">
+      <view class="nav-icon-wrap"><text class="nav-icon">📝</text></view>
+      <text class="nav-title">恋爱日记</text>
+      <text class="nav-desc">记录甜蜜日常</text>
     </view>
-    <view class="nav-item" bindtap="goAlbum"><text class="nav-emoji">📸</text><text class="nav-name">回忆墙</text><text class="nav-desc">我们的照片</text></view>
-    <view class="nav-item" bindtap="goAnniversary"><text class="nav-emoji">⏰</text><text class="nav-name">纪念日</text><text class="nav-desc">重要日子提醒</text></view>
+    <view class="nav-card" bindtap="goNote">
+      <view class="nav-icon-wrap">
+        <text class="nav-icon">💌</text>
+        <view wx:if="{{unreadCount > 0}}" class="nav-badge">{{unreadCount}}</view>
+      </view>
+      <text class="nav-title">小纸条</text>
+      <text class="nav-desc">{{unreadCount > 0 ? '未读 ' + unreadCount : '收发纸条'}}</text>
+    </view>
+    <view class="nav-card" bindtap="goAlbum">
+      <view class="nav-icon-wrap"><text class="nav-icon">📸</text></view>
+      <text class="nav-title">回忆墙</text>
+      <text class="nav-desc">我们的照片</text>
+    </view>
+    <view class="nav-card" bindtap="goAnniversary">
+      <view class="nav-icon-wrap"><text class="nav-icon">⏰</text></view>
+      <text class="nav-title">纪念日</text>
+      <text class="nav-desc">重要日子提醒</text>
+    </view>
   </view>
 
   <!-- 底部退出 -->
   <view class="logout-link" bindtap="logout">退出登录</view>
-  <view style="height: 40rpx;"></view>
+  <view style="height:120rpx;"></view>
 </view>

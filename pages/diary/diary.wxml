@@ -1,15 +1,19 @@
-<view class="container">
-  <block wx:if="{{loading}}"><view class="empty">加载中...</view></block>
+<view class="diary-scroll">
+  <block wx:if="{{loading}}"><view class="empty-state"><text class="emoji">📝</text><text class="title">加载中...</text></view></block>
   <block wx:elif="{{entries.length===0}}">
-    <view class="empty"><text class="empty-emoji">📝</text><text>还没有日记</text><text>点击右下角写第一篇吧</text></view>
+    <view class="empty-state"><text class="emoji">📝</text><text class="title">还没有日记</text><text class="sub">点击右下角写第一篇日记吧</text></view>
   </block>
   <block wx:for="{{entries}}" wx:key="id">
     <view class="diary-card" data-entry="{{item}}" bindlongpress="deleteEntry">
-      <view class="diary-head"><text>{{item.mood_emoji || '😊'}}</text><text class="diary-who">{{item.user_id === currentUserId ? '我' : 'TA'}}</text></view>
+      <view class="diary-head">
+        <text class="diary-mood">{{item.mood_emoji || '😊'}}</text>
+        <text class="diary-who {{item.user_id === currentUserId ? 'me' : 'ta'}}">{{item.user_id === currentUserId ? '我' : 'TA'}}</text>
+      </view>
       <text class="diary-content">{{item.content}}</text>
       <text class="diary-time">{{item.created_at}}</text>
     </view>
   </block>
-  <view class="hint" wx:if="{{entries.length>0}}">💡 长按日记可删除</view>
+  <view class="hint-text" wx:if="{{entries.length>0}}">💡 长按日记可删除</view>
   <view class="fab" bindtap="goCompose">✏️</view>
+  <view style="height:120rpx;"></view>
 </view>

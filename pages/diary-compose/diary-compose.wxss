@@ -1,5 +1,5 @@
-.compose { padding: 32rpx; display: flex; flex-direction: column; height: calc(100vh - 88rpx); }
-.mood-bar { display: flex; gap: 8rpx; align-items: center; font-size: 28rpx; margin-bottom: 24rpx; }
-.mood { font-size: 44rpx; padding: 8rpx 12rpx; border-radius: 16rpx; }
-.mood.active { background: #D4EEF5; }
-.content { flex: 1; font-size: 32rpx; line-height: 1.6; padding: 24rpx; background: white; border-radius: 24rpx; margin-bottom: 24rpx; }
+.compose { padding: 28rpx; display: flex; flex-direction: column; height: calc(100vh - 88rpx); background: #F7F9FC; }
+.mood-bar { display: flex; gap: 8rpx; align-items: center; font-size: 28rpx; margin-bottom: 20rpx; flex-wrap: wrap; }
+.mood { font-size: 44rpx; padding: 10rpx 14rpx; border-radius: 20rpx; transition: all 0.2s; }
+.mood.active { background: #E8F4F8; transform: scale(1.1); }
+.content { flex: 1; font-size: 32rpx; line-height: 1.7; padding: 28rpx; background: white; border-radius: 28rpx; margin-bottom: 24rpx; box-shadow: 0 2rpx 16rpx rgba(126,200,227,0.08); }
