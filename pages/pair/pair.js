@@ -1,5 +1,6 @@
 // 配对页 — 创建/加入
 const supabase = require('../../utils/supabase.js');
+const logger = require('../../utils/logger.js');
 const app = getApp();
 
 Page({
@@ -23,6 +24,7 @@ Page({
     this.setData({ isCreating: true });
 
     try {
+      logger.start('[Pair] createPair', { userId });
       const code = String(100000 + Math.floor(Math.random() * 900000));
       const expiry = new Date(Date.now() + 3 * 60000).toISOString();
 
@@ -35,8 +37,10 @@ Page({
       app.globalData.couple = result[0];
       app.globalData.isPaired = true;
 
+      logger.log('[Pair] createPair 成功', { pairCode: code });
       this.setData({ pairCode: code, hasCreated: true, isCreating: false });
     } catch (e) {
+      logger.error('[Pair] createPair', e);
       wx.showToast({ title: '创建失败', icon: 'none' });
       this.setData({ isCreating: false });
     }
@@ -51,6 +55,7 @@ Page({
     if (!userId) return wx.showToast({ title: '请先登录', icon: 'none' });
 
     try {
+      logger.start('[Pair] joinPair', { code });
       const res = await supabase.from('couple').select('*').eq('pair_code', code).fetch();
       if (!res || res.length === 0) throw new Error('配对码无效');
       const couple = res[0];
@@ -63,8 +68,10 @@ Page({
 
       app.globalData.couple = couple;
       app.globalData.isPaired = true;
+      logger.log('[Pair] joinPair 成功');
       wx.redirectTo({ url: '/pages/home/home' });
     } catch (e) {
+      logger.error('[Pair] joinPair', e);
       wx.showToast({ title: e.message || '加入失败', icon: 'none' });
     }
   },

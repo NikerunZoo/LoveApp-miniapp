@@ -1,5 +1,6 @@
 // 回忆墙 — 相册
 const supabase = require('../../utils/supabase.js');
+const logger = require('../../utils/logger.js');
 const app = getApp();
 
 Page({
@@ -11,9 +12,11 @@ Page({
     const coupleId = app.globalData.couple?.id;
     if (!coupleId) { this.setData({ loading: false }); return; }
     try {
+      logger.start('[Album] load', { coupleId });
       const res = await supabase.from('photo').select('*').eq('couple_id', coupleId).order('created_at', false).fetch();
+      logger.log('[Album] load 完成', { count: (res || []).length });
       this.setData({ photos: res || [], loading: false });
-    } catch (e) { this.setData({ loading: false }); }
+    } catch (e) { logger.error('[Album] load', e); this.setData({ loading: false }); }
   },
 
   chooseImage() {
@@ -30,6 +33,7 @@ Page({
     if (!user || !couple) return;
 
     try {
+      logger.start('[Album] upload');
       // 小程序的 photo 表存 URL（微信云存储或直接用 temp path）
       // 暂时用 Supabase Storage 的 REST API 上传
       const fileName = `${couple.id}/${Date.now()}_${user.id}.jpg`;
@@ -55,9 +59,11 @@ Page({
       await supabase.from('photo').insert({ url: publicUrl, user_id: user.id, couple_id: couple.id }).fetch();
 
       wx.hideLoading();
+      logger.log('[Album] upload 成功');
       wx.showToast({ title: '上传成功', icon: 'success' });
       this.load();
     } catch (e) {
+      logger.error('[Album] upload', e);
       wx.hideLoading();
       wx.showToast({ title: '上传失败', icon: 'none' });
     }
@@ -70,10 +76,11 @@ Page({
     const res = await new Promise(r => wx.showModal({ title: '确定删除？', success: r }));
     if (!res.confirm) return;
     try {
+      logger.start('[Album] delete', { id: photo.id });
       await supabase.from('photo').delete().eq('id', photo.id).fetch();
       wx.showToast({ icon: 'success', title: '已删除' });
       this.load();
-    } catch (e) { wx.showToast({ icon: 'none', title: '删除失败' }); }
+    } catch (e) { logger.error('[Album] delete', e); wx.showToast({ icon: 'none', title: '删除失败' }); }
   },
 
   preview(e) {

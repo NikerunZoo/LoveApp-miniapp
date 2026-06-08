@@ -1,5 +1,6 @@
 // 写纸条
 const supabase = require('../../utils/supabase.js');
+const logger = require('../../utils/logger.js');
 const app = getApp();
 
 Page({
@@ -24,13 +25,16 @@ Page({
 
     this.setData({ sending: true });
     try {
+      logger.start('[NoteCompose] send', { toUserId: partnerId });
       await supabase.from('note').insert({
         from_user_id: user.id, from_user_name: user.user_metadata?.nickname || '我',
         to_user_id: partnerId, content, is_read: false, is_starred: false,
       }).fetch();
+      logger.log('[NoteCompose] send 成功');
       wx.showToast({ title: '已发送', icon: 'success' });
       setTimeout(() => wx.navigateBack(), 1500);
     } catch (e) {
+      logger.error('[NoteCompose] send', e);
       wx.showToast({ title: '发送失败', icon: 'none' });
       this.setData({ sending: false });
     }

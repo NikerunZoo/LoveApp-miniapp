@@ -1,5 +1,6 @@
 // 纸条列表 — 收件箱/发件箱/收藏
 const supabase = require('../../utils/supabase.js');
+const logger = require('../../utils/logger.js');
 const app = getApp();
 
 Page({
@@ -12,14 +13,16 @@ Page({
     if (!userId) { this.setData({ loading: false }); return; }
     this.setData({ loading: true });
     try {
+      logger.start('[Note] load', { userId });
       const [r, s] = await Promise.all([
         supabase.from('note').select('*').eq('to_user_id', userId).order('created_at', false).limit(50).fetch(),
         supabase.from('note').select('*').eq('from_user_id', userId).order('created_at', false).limit(50).fetch(),
       ]);
       const received = r || [], sent = s || [];
       const starred = [...received.filter(n => n.is_starred), ...sent.filter(n => n.is_starred)];
+      logger.log('[Note] load 完成', { received: received.length, sent: sent.length });
       this.setData({ received, sent, starred, loading: false });
-    } catch (e) { this.setData({ loading: false }); }
+    } catch (e) { logger.error('[Note] load', e); this.setData({ loading: false }); }
   },
 
   switchTab(e) { this.setData({ tab: parseInt(e.currentTarget.dataset.tab) }); },
@@ -27,12 +30,12 @@ Page({
   async markRead(e) {
     const note = e.currentTarget.dataset.note;
     if (note.is_read) return;
-    try { await supabase.from('note').update({ is_read: true }).eq('id', note.id).fetch(); this.load(); } catch (e) {}
+    try { logger.start('[Note] markRead', { noteId: note.id }); await supabase.from('note').update({ is_read: true }).eq('id', note.id).fetch(); this.load(); } catch (e) { logger.error('[Note] markRead', e); }
   },
 
   async toggleStar(e) {
     const note = e.currentTarget.dataset.note;
-    try { await supabase.from('note').update({ is_starred: !note.is_starred }).eq('id', note.id).fetch(); this.load(); } catch (e) {}
+    try { logger.start('[Note] toggleStar', { noteId: note.id }); await supabase.from('note').update({ is_starred: !note.is_starred }).eq('id', note.id).fetch(); this.load(); } catch (e) { logger.error('[Note] toggleStar', e); }
   },
 
   goCompose() { wx.navigateTo({ url: '/pages/note-compose/note-compose' }); },

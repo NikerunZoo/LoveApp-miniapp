@@ -1,5 +1,6 @@
 // 纪念日
 const supabase = require('../../utils/supabase.js');
+const logger = require('../../utils/logger.js');
 const app = getApp();
 
 Page({
@@ -21,9 +22,11 @@ Page({
     const daysToNext = Math.floor((nextDate - new Date()) / 86400000);
 
     try {
+      logger.start('[Anniversary] load', { coupleId: couple.id });
       const res = await supabase.from('anniversary').select('*').eq('couple_id', couple.id).order('date', true).fetch();
+      logger.log('[Anniversary] load 完成', { count: (res || []).length });
       this.setData({ anniversaries: res || [], startDate, daysTogether: days, yearCount, daysToNext, loading: false });
-    } catch (e) { this.setData({ loading: false }); }
+    } catch (e) { logger.error('[Anniversary] load', e); this.setData({ loading: false }); }
   },
 
   async editStartDate() {
