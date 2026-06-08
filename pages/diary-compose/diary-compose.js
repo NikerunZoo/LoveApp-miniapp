@@ -7,6 +7,7 @@ Page({
   data: { content: '', mood: '😊', moods: MOODS, sending: false },
 
   pickMood(e) { this.setData({ mood: e.currentTarget.dataset.mood }); },
+  onContentInput(e) { this.setData({ content: e.detail.value }); },
 
   async save() {
     const content = this.data.content.trim();

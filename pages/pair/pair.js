@@ -15,6 +15,7 @@ Page({
   switchTab(e) { this.setData({ tab: parseInt(e.currentTarget.dataset.tab) }); },
 
   bindDateChange(e) { this.setData({ startDate: e.detail.value }); },
+  onJoinCodeInput(e) { this.setData({ joinCode: e.detail.value }); },
 
   async createPair() {
     const userId = app.globalData.currentUser?.id;

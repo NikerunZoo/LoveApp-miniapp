@@ -14,6 +14,10 @@ Page({
 
   toggleMode() { this.setData({ isRegister: !this.data.isRegister }); },
 
+  onNicknameInput(e) { this.setData({ nickname: e.detail.value }); },
+  onEmailInput(e) { this.setData({ email: e.detail.value }); },
+  onPasswordInput(e) { this.setData({ password: e.detail.value }); },
+
   async handleSubmit() {
     const { isRegister, email, password, nickname } = this.data;
     if (!email.includes('@')) { wx.showToast({ title: '请输入正确的邮箱', icon: 'none' }); return; }

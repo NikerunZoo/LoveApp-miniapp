@@ -1,5 +1,5 @@
 <view class="compose">
-  <textarea class="content" placeholder="想对TA说什么..." value="{{content}}" bindinput="e => content = e.detail.value" auto-focus></textarea>
+  <textarea class="content" placeholder="想对TA说什么..." value="{{content}}" bindinput="onContentInput" auto-focus></textarea>
   <view class="phrases">
     <view class="phrase" wx:for="{{phrases}}" wx:key="*this" data-phrase="{{item}}" bindtap="insertPhrase">{{item}}</view>
   </view>

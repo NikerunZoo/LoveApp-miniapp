@@ -5,6 +5,8 @@ const app = getApp();
 Page({
   data: { content: '', sending: false, phrases: ['想你了🥺','晚安🌙','mua💋','在干嘛🧐','爱你❤️'] },
 
+  onContentInput(e) { this.setData({ content: e.detail.value }); },
+
   insertPhrase(e) {
     const phrase = e.currentTarget.dataset.phrase;
     this.setData({ content: this.data.content ? `${this.data.content}\n${phrase}` : phrase });

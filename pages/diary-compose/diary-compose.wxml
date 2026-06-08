@@ -3,6 +3,6 @@
     <text>今天心情:</text>
     <view wx:for="{{moods}}" wx:key="*this" class="mood {{item===mood?'active':''}}" data-mood="{{item}}" bindtap="pickMood">{{item}}</view>
   </view>
-  <textarea class="content" placeholder="今天发生了什么..." value="{{content}}" bindinput="e => content = e.detail.value" auto-focus></textarea>
+  <textarea class="content" placeholder="今天发生了什么..." value="{{content}}" bindinput="onContentInput" auto-focus></textarea>
   <button class="btn" style="background:#FF6B8A;color:white;border-radius:24rpx;" loading="{{sending}}" bindtap="save">保存日记</button>
 </view>
