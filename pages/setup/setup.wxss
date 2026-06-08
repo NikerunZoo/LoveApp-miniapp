@@ -1,0 +1,7 @@
+.setup-page { min-height: 100vh; background: linear-gradient(160deg, #6DB8D4, #7EC8E3, #A8D8EA 70%, #D4EEF5); display: flex; align-items: center; justify-content: center; padding: 48rpx; position: relative; overflow: hidden; }
+.setup-blob { position: absolute; width: 500rpx; height: 500rpx; background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%); top: -15%; right: -25%; border-radius: 50%; }
+.setup-card { width: 100%; max-width: 560rpx; text-align: center; position: relative; z-index: 1; }
+.setup-emoji { font-size: 96rpx; display: block; animation: float 3s ease-in-out infinite; }
+.setup-title { font-size: 48rpx; font-weight: 700; color: white; letter-spacing: 8rpx; display: block; margin-top: 16rpx; }
+.setup-sub { font-size: 28rpx; color: rgba(255,255,255,0.7); display: block; margin: 16rpx 0 48rpx; }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16rpx); } }

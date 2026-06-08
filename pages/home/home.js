@@ -17,7 +17,6 @@ Page({
     partnerMood: '😊',
     partnerName: 'TA',
     nickname: '',
-    email: '',
     unreadCount: 0,
     anniversary: '--',
   },
@@ -44,7 +43,7 @@ Page({
     }
 
     if (user) {
-      this.setData({ nickname: user.user_metadata?.nickname || user.email?.split('@')[0] || '我', email: user.email || '' });
+      this.setData({ nickname: user.nickname || '我' });
     }
 
     if (couple) {
@@ -107,11 +106,11 @@ Page({
 
   // 退出登录
   logout() {
-    wx.showModal({ title: '退出登录', content: '确定要退出吗？', success: (res) => {
+    wx.showModal({ title: '切换账号', content: '确定要重新设置吗？', success: (res) => {
       if (res.confirm) {
-        wx.removeStorageSync('supabase_session');
+        wx.removeStorageSync('love_user_id');
         app.globalData = { currentUser: null, couple: null, isLoggedIn: false, isPaired: false };
-        wx.redirectTo({ url: '/pages/login/login' });
+        wx.redirectTo({ url: '/pages/setup/setup' });
       }
     }});
   },

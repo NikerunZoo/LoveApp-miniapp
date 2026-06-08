@@ -39,13 +39,12 @@ Page({
       const fileName = `${couple.id}/${Date.now()}_${user.id}.jpg`;
       const uploadUrl = `https://xcawlsthoenofziaobgl.supabase.co/storage/v1/object/photo/${fileName}`;
 
-      const token = supabase.getAuthToken();
       await new Promise((resolve, reject) => {
         wx.uploadFile({
           url: uploadUrl,
           filePath,
           name: 'file',
-          header: { 'Authorization': `Bearer ${token}`, 'apikey': supabase.apikey },
+          header: { 'apikey': supabase.apikey },
           success: (res) => {
             if (res.statusCode >= 200 && res.statusCode < 300) resolve(res);
             else reject(new Error('Upload failed'));

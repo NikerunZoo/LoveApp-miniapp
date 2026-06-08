@@ -1,31 +1,42 @@
-// Splash → 恢复 Session + 配对数据后再跳转
+// Splash → 自动登录（基于本地存储的用户ID）
 const supabase = require('../../utils/supabase.js');
 const logger = require('../../utils/logger.js');
 const app = getApp();
 
+function generateId() {
+  return 'wx_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
+}
+
 Page({
   async onLoad() {
-    const hasSession = !!wx.getStorageSync('supabase_session');
-    if (!hasSession) {
-      setTimeout(() => wx.redirectTo({ url: '/pages/login/login' }), 1000);
+    let userId = wx.getStorageSync('love_user_id');
+
+    // 新用户：生成一个唯一ID
+    if (!userId) {
+      userId = generateId();
+      wx.setStorageSync('love_user_id', userId);
+      logger.log('[Splash] 新用户', { userId });
+      setTimeout(() => wx.redirectTo({ url: '/pages/setup/setup' }), 1000);
       return;
     }
 
-    // 尝试验证 session 并恢复数据
+    // 老用户：从 profiles 恢复数据
+    logger.start('[Splash] 恢复用户', { userId });
     try {
-      logger.start('[Splash] 恢复Session');
-
-      // 获取当前用户
-      const userRes = await supabase.request('GET', '/auth/v1/user');
-      app.globalData.currentUser = userRes;
-      app.globalData.isLoggedIn = true;
-
-      // 恢复配对数据
-      const userId = userRes.id;
-      const profiles = await supabase.from('profiles').select('couple_id').eq('id', userId).fetch();
+      const profiles = await supabase.from('profiles').select('*').eq('id', userId).fetch();
       const profile = Array.isArray(profiles) ? profiles[0] : profiles;
 
-      if (profile && profile.couple_id) {
+      if (!profile) {
+        // profile 丢了（比如清过数据库），去设置页
+        setTimeout(() => wx.redirectTo({ url: '/pages/setup/setup' }), 1000);
+        return;
+      }
+
+      app.globalData.currentUser = { id: userId, nickname: profile.nickname };
+      app.globalData.isLoggedIn = true;
+
+      // 恢复配对
+      if (profile.couple_id) {
         const couples = await supabase.from('couple').select('*').eq('id', profile.couple_id).fetch();
         const couple = Array.isArray(couples) ? couples[0] : couples;
         if (couple) {
@@ -35,14 +46,11 @@ Page({
         }
       }
 
-      // 根据配对状态跳转
       const dest = app.globalData.isPaired ? '/pages/home/home' : '/pages/pair/pair';
       setTimeout(() => wx.redirectTo({ url: dest }), 1000);
     } catch (e) {
-      // Session 过期，重新登录
-      logger.error('[Splash] Session恢复失败', e);
-      wx.removeStorageSync('supabase_session');
-      setTimeout(() => wx.redirectTo({ url: '/pages/login/login' }), 1000);
+      logger.error('[Splash] 恢复失败', e);
+      setTimeout(() => wx.redirectTo({ url: '/pages/setup/setup' }), 1000);
     }
   },
 });

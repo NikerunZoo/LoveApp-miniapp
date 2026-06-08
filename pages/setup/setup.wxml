@@ -1,0 +1,12 @@
+<view class="setup-page">
+  <view class="setup-blob"></view>
+  <view class="setup-card">
+    <text class="setup-emoji">💕</text>
+    <text class="setup-title">属于我们</text>
+    <text class="setup-sub">设置一个昵称开始吧</text>
+
+    <input class="input-field" placeholder="你的昵称 (如: 宝贝)" value="{{nickname}}" bindinput="onNicknameInput" maxlength="10" />
+
+    <button class="btn-primary" loading="{{saving}}" bindtap="save">开始使用</button>
+  </view>
+</view>

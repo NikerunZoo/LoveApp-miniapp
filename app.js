@@ -1,15 +1,13 @@
-// app.js — 小程序入口，初始化 Supabase SDK
-const { initSupabase } = require('./utils/supabase.js');
+// app.js — 小程序入口
+// 使用本地ID + Supabase，无邮箱密码，微信打开即用
+const logger = require('./utils/logger.js');
 
 App({
   onLaunch() {
-    // 初始化 Supabase 客户端
-    initSupabase();
-    console.log('[LoveApp] 小程序启动');
+    logger.log('[App] 小程序启动');
   },
 
   globalData: {
-    // 全局状态（类似 AuthProvider）
     currentUser: null,
     couple: null,
     isLoggedIn: false,

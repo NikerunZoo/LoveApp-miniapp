@@ -17,7 +17,6 @@ global.wx = {
 
 // Mock wx 使 supabase.js 不报错
 const supabase = require('../utils/supabase.js');
-supabase.initSupabase();
 
 let passed = 0, failed = 0;
 

@@ -4,19 +4,7 @@
 const SUPABASE_URL = 'https://xcawlsthoenofziaobgl.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhjYXdsc3Rob2Vub2Z6aWFvYmdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4ODE1MjIsImV4cCI6MjA5NjQ1NzUyMn0.7hbUgeJaFQjxzene-CeIexnUmxr1-8aJdvN8WLBcEmo';
 
-let authToken = '';          // session access_token
-let refreshTokenValue = '';  // refresh_token
-
-// 持久化存储（小程序版）
-function saveSession() { wx.setStorageSync('supabase_session', JSON.stringify({ authToken, refreshTokenValue })); }
-function loadSession() {
-  const s = wx.getStorageSync('supabase_session');
-  if (s) { const p = JSON.parse(s); authToken = p.authToken || ''; refreshTokenValue = p.refreshTokenValue || ''; }
-}
-
 module.exports = {
-  initSupabase() { loadSession(); },
-  getAuthToken() { return authToken; },
   apikey: SUPABASE_ANON_KEY,
 
   // 通用请求方法
@@ -27,7 +15,6 @@ module.exports = {
         'Content-Type': 'application/json',
         ...extraHeaders,
       };
-      if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
 
       wx.request({
         url: `${SUPABASE_URL}${path}`,
@@ -41,20 +28,6 @@ module.exports = {
         fail(err) { reject(new Error(err.errMsg || 'Network error')); },
       });
     });
-  },
-
-  // Auth 注册
-  async signUp(email, password) {
-    const result = await this.request('POST', '/auth/v1/signup', { email, password });
-    if (result.access_token) { authToken = result.access_token; refreshTokenValue = result.refresh_token || ''; saveSession(); }
-    return result;
-  },
-
-  // Auth 登录
-  async signIn(email, password) {
-    const result = await this.request('POST', '/auth/v1/token?grant_type=password', { email, password });
-    if (result.access_token) { authToken = result.access_token; refreshTokenValue = result.refresh_token || ''; saveSession(); }
-    return result;
   },
 
   // DB 查询

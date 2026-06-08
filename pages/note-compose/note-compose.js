@@ -27,7 +27,7 @@ Page({
     try {
       logger.start('[NoteCompose] send', { toUserId: partnerId });
       await supabase.from('note').insert({
-        from_user_id: user.id, from_user_name: user.user_metadata?.nickname || '我',
+        from_user_id: user.id, from_user_name: user.nickname || '我',
         to_user_id: partnerId, content, is_read: false, is_starred: false,
       }).fetch();
       logger.log('[NoteCompose] send 成功');
