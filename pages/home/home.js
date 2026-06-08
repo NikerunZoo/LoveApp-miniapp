@@ -19,6 +19,7 @@ Page({
     nickname: '',
     email: '',
     unreadCount: 0,
+    anniversary: '--',
   },
 
   onShow() {
@@ -52,9 +53,19 @@ Page({
       this.setData({
         daysTogether: days,
         startDate,
-        startDateStr: `${startDate.getFullYear()}.${String(startDate.getMonth()+1).padStart(2,'0')}.${String(startDate.getDate()).padStart(2,'0')}`,
-        dailyQuote: QUOTES[days % QUOTES.length],
-      });
+        // 下一个纪念日倒计时
+        const now = new Date();
+        let nextAnniv = new Date(now.getFullYear(), startDate.getMonth(), startDate.getDate());
+        if (nextAnniv <= now) nextAnniv.setFullYear(nextAnniv.getFullYear() + 1);
+        const anniversaryDays = Math.ceil((nextAnniv - now) / 86400000);
+
+        this.setData({
+          daysTogether: days,
+          startDate,
+          startDateStr: `${startDate.getFullYear()}.${String(startDate.getMonth()+1).padStart(2,'0')}.${String(startDate.getDate()).padStart(2,'0')}`,
+          dailyQuote: QUOTES[days % QUOTES.length],
+          anniversary: anniversaryDays,
+        });
 
       // 对方信息
       try {
