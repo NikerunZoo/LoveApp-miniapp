@@ -3,7 +3,7 @@
   <view class="profile-header">
     <view class="profile-avatar" bindtap="toggleDebug">{{avatarLetter}}</view>
     <text class="profile-nickname">{{nickname}}</text>
-    <text class="profile-id">ID: {{userIdShort}}</text>
+    <text class="profile-id" bindtap="toggleDebug">ID: {{userIdShort}}</text>
   </view>
 
   <!-- 配对信息 -->
@@ -60,11 +60,9 @@
     </view>
   </block>
 
-  <!-- 调试开关 -->
-  <view class="profile-section-title">
-    🛠 调试工具
-    <switch checked="{{showDebug}}" bindchange="toggleDebug" style="float:right;transform:scale(0.8);" />
-  </view>
+  <block wx:if="{{showDebug}}">
+    <view class="profile-section-title">🛠 调试工具</view>
+  </block>
   <view wx:if="{{showDebug}}" class="profile-menu">
     <view class="profile-item" bindtap="copyUuid">
       <text class="profile-item-icon">📋</text>
