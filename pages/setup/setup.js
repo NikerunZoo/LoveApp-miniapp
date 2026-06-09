@@ -25,7 +25,7 @@ Page({
       app.globalData.isLoggedIn = true;
 
       logger.log('[Setup] 创建成功');
-      wx.redirectTo({ url: '/pages/pair/pair' });
+      wx.redirectTo({ url: '/pages/home/home' });
     } catch (e) {
       logger.error('[Setup] 创建失败', e);
       wx.showToast({ title: '保存失败，请重试', icon: 'none' });

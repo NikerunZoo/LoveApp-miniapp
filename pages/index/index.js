@@ -30,7 +30,7 @@ Page({
       return;
     }
 
-    // 老用户：从 profiles 恢复数据
+    // 老用户：从 profiles 恢复数据，统一跳首页（配对状态由首页自己处理）
     logger.start('[Splash] 恢复用户', { userId });
     try {
       const profiles = await supabase.from('profiles').select('*').eq('id', userId).fetch();
@@ -45,7 +45,7 @@ Page({
       app.globalData.currentUser = { id: userId, nickname: profile.nickname };
       app.globalData.isLoggedIn = true;
 
-      // 恢复配对
+      // 恢复配对数据（如有）
       if (profile.couple_id) {
         const couples = await supabase.from('couple').select('*').eq('id', profile.couple_id).fetch();
         const couple = Array.isArray(couples) ? couples[0] : couples;
@@ -56,8 +56,8 @@ Page({
         }
       }
 
-      const dest = app.globalData.isPaired ? '/pages/home/home' : '/pages/pair/pair';
-      setTimeout(() => wx.redirectTo({ url: dest }), 1000);
+      // 无论是否已配对，统一进首页
+      setTimeout(() => wx.redirectTo({ url: '/pages/home/home' }), 1000);
     } catch (e) {
       logger.error('[Splash] 恢复失败', e);
       setTimeout(() => wx.redirectTo({ url: '/pages/setup/setup' }), 1000);

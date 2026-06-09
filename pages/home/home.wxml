@@ -1,39 +1,85 @@
 <view class="home">
-  <!-- 计时器头部 —— 浪漫渐变 -->
-  <view class="timer-section">
-    <view class="timer-glow"></view>
-    <text class="timer-label">💕 我们在一起</text>
-    <view class="timer-days-row">
-      <text class="timer-number">{{daysTogether}}</text>
-      <text class="timer-unit">天</text>
+  <!-- ==================== 未配对：顶部展示配对卡片 ==================== -->
+  <block wx:if="{{!isPaired}}">
+    <view class="pair-header">
+      <view class="pair-glow"></view>
+      <text class="pair-emoji">💑</text>
+      <text class="pair-title">连接彼此</text>
+      <text class="pair-sub">创建或加入一个配对，开始你们的专属空间</text>
     </view>
-    <text class="timer-date">{{startDateStr}} 起</text>
-    <view class="timer-wave">
-      <view class="wave"></view><view class="wave"></view><view class="wave"></view>
-    </view>
-  </view>
 
-  <!-- 三列信息卡 -->
-  <view class="info-strip">
-    <view class="info-item">
-      <text class="info-emoji">🎂</text>
-      <text class="info-value">{{anniversary}}天</text>
-      <text class="info-label">纪念日</text>
+    <view class="tab-bar" style="margin: 0 28rpx 24rpx;">
+      <view class="tab {{pairTab===0?'active':''}}" data-tab="0" bindtap="switchPairTab">创建配对</view>
+      <view class="tab {{pairTab===1?'active':''}}" data-tab="1" bindtap="switchPairTab">加入配对</view>
     </view>
-    <view class="info-divider"></view>
-    <view class="info-item">
-      <text class="info-emoji">💝</text>
-      <text class="info-value">{{partnerName}}</text>
-      <text class="info-label">对方</text>
-    </view>
-    <view class="info-divider"></view>
-    <view class="info-item">
-      <text class="info-emoji">{{partnerMood}}</text>
-      <text class="info-value">心情</text>
-      <text class="info-label">TA的心情</text>
-    </view>
-  </view>
 
+    <!-- 创建配对 -->
+    <view wx:if="{{pairTab===0}}" class="pair-card">
+      <block wx:if="{{!hasCreated}}">
+        <picker mode="date" value="{{pairStartDate}}" bindchange="bindPairDateChange">
+          <view class="date-picker">📅 开始日期: {{pairStartDate}}</view>
+        </picker>
+        <button class="btn-primary" loading="{{isCreating}}" bindtap="createPair">创建配对</button>
+      </block>
+      <block wx:else>
+        <view class="code-box">
+          <text class="code-label">你的配对码</text>
+          <text class="code">{{pairCode}}</text>
+          <text class="code-hint">3 分钟内有效 · 等对方输入</text>
+        </view>
+        <view class="code-actions">
+          <button class="btn-outline" bindtap="copyCode">复制配对码</button>
+          <button class="btn-primary" bindtap="checkPairDone" style="margin-top:16rpx;">刷新状态</button>
+        </view>
+      </block>
+    </view>
+
+    <!-- 加入配对 -->
+    <view wx:if="{{pairTab===1}}" class="pair-card">
+      <input class="code-input" type="number" maxlength="6" placeholder="输入 6 位配对码" value="{{joinCode}}" bindinput="onJoinCodeInput" />
+      <button class="btn-primary" bindtap="joinPair">加入配对</button>
+      <button class="btn-outline" bindtap="goScan" style="margin-top:16rpx;">📷 扫码加入</button>
+    </view>
+  </block>
+
+  <!-- ==================== 已配对：计时器头部 ==================== -->
+  <block wx:else>
+    <view class="timer-section">
+      <view class="timer-glow"></view>
+      <text class="timer-label">💕 我们在一起</text>
+      <view class="timer-days-row">
+        <text class="timer-number">{{daysTogether}}</text>
+        <text class="timer-unit">天</text>
+      </view>
+      <text class="timer-date">{{startDateStr}} 起</text>
+      <view class="timer-wave">
+        <view class="wave"></view><view class="wave"></view><view class="wave"></view>
+      </view>
+    </view>
+
+    <!-- 三列信息卡 -->
+    <view class="info-strip">
+      <view class="info-item">
+        <text class="info-emoji">🎂</text>
+        <text class="info-value">{{anniversary}}天</text>
+        <text class="info-label">纪念日</text>
+      </view>
+      <view class="info-divider"></view>
+      <view class="info-item">
+        <text class="info-emoji">💝</text>
+        <text class="info-value">{{partnerName}}</text>
+        <text class="info-label">对方</text>
+      </view>
+      <view class="info-divider"></view>
+      <view class="info-item">
+        <text class="info-emoji">{{partnerMood}}</text>
+        <text class="info-value">心情</text>
+        <text class="info-label">TA的心情</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- ==================== 共同区域：心情 + 情话 + 入口 ==================== -->
   <!-- 心情选择 -->
   <view class="section-title">✨ 今天的心情</view>
   <view class="mood-grid">
@@ -81,6 +127,6 @@
   </view>
 
   <!-- 底部退出 -->
-  <view class="logout-link" bindtap="logout">退出登录</view>
+  <view class="logout-link" bindtap="logout">切换账号</view>
   <view style="height:120rpx;"></view>
 </view>

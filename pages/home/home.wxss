@@ -130,5 +130,74 @@
 .nav-title { font-size: 30rpx; font-weight: 600; display: block; margin-top: 20rpx; }
 .nav-desc { font-size: 24rpx; color: #8E9AAF; display: block; margin-top: 8rpx; }
 
+/* ---- 配对头部 ---- */
+.pair-header {
+  background: linear-gradient(155deg, #6DB8D4 0%, #7EC8E3 25%, #A8D8EA 60%, #C5E8F3 100%);
+  padding: 80rpx 32rpx 56rpx;
+  text-align: center;
+  border-radius: 0 0 64rpx 64rpx;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 24rpx;
+}
+.pair-glow {
+  position: absolute;
+  top: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500rpx;
+  height: 500rpx;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.pair-emoji { font-size: 96rpx; display: block; position: relative; z-index: 1; }
+.pair-title { color: white; font-size: 40rpx; font-weight: 600; display: block; margin-top: 16rpx; position: relative; z-index: 1; }
+.pair-sub { color: rgba(255,255,255,0.7); font-size: 26rpx; display: block; margin-top: 12rpx; position: relative; z-index: 1; }
+
+/* ---- 配对卡片 ---- */
+.pair-card {
+  margin: 0 28rpx 24rpx;
+  background: white;
+  border-radius: 32rpx;
+  padding: 40rpx 32rpx;
+  box-shadow: 0 8rpx 36rpx rgba(126,200,227,0.15);
+}
+.date-picker {
+  background: #F7F9FC;
+  padding: 28rpx 32rpx;
+  border-radius: 24rpx;
+  margin-bottom: 32rpx;
+  font-size: 30rpx;
+  text-align: center;
+  color: #2D3E4F;
+}
+
+/* 配对码展示 */
+.code-box {
+  background: linear-gradient(155deg, #6DB8D4, #7EC8E3, #A8D8EA);
+  border-radius: 40rpx;
+  padding: 64rpx 40rpx;
+  text-align: center;
+  margin-bottom: 32rpx;
+  box-shadow: 0 12rpx 40rpx rgba(126,200,227,0.3);
+}
+.code-label { color: rgba(255,255,255,0.8); font-size: 28rpx; display: block; }
+.code { color: white; font-size: 88rpx; font-weight: 200; letter-spacing: 20rpx; display: block; margin: 24rpx 0; }
+.code-hint { color: rgba(255,255,255,0.5); font-size: 24rpx; display: block; }
+.code-actions { text-align: center; }
+
+/* 配对码输入 */
+.code-input {
+  background: #F7F9FC;
+  padding: 36rpx;
+  border-radius: 24rpx;
+  text-align: center;
+  font-size: 64rpx;
+  letter-spacing: 28rpx;
+  margin-bottom: 32rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 /* ---- 退出 ---- */
 .logout-link { text-align: center; color: #CCC; font-size: 26rpx; margin-top: 16rpx; }

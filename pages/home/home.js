@@ -1,4 +1,4 @@
-// 首页 — 计时器 + 心情 + 情话 + 功能入口
+// 首页 — 计时器(已配对) / 配对卡片(未配对) + 心情 + 情话 + 功能入口
 const supabase = require('../../utils/supabase.js');
 const logger = require('../../utils/logger.js');
 const app = getApp();
@@ -9,6 +9,10 @@ const MOODS = ['😍','😊','😐','😔','😤','🥰','😴','🎉'];
 
 Page({
   data: {
+    // 配对状态
+    isPaired: false,
+
+    // 计时器（已配对）
     daysTogether: 0,
     startDate: null,
     startDateStr: '',
@@ -19,6 +23,14 @@ Page({
     nickname: '',
     unreadCount: 0,
     anniversary: '--',
+
+    // 配对卡片（未配对）
+    pairTab: 0,          // 0=创建, 1=加入
+    pairStartDate: new Date().toISOString().split('T')[0],
+    pairCode: '',
+    joinCode: '',
+    isCreating: false,
+    hasCreated: false,
   },
 
   onShow() {
@@ -37,55 +49,157 @@ Page({
         if (p && p.couple_id) {
           const couples = await supabase.from('couple').select('*').eq('id', p.couple_id).fetch();
           couple = Array.isArray(couples) ? couples[0] : couples;
-          if (couple) { app.globalData.couple = couple; app.globalData.isPaired = true; }
+          if (couple) {
+            app.globalData.couple = couple;
+            app.globalData.isPaired = true;
+          }
         }
       } catch (e) { logger.error('[Home] loadCouple', e); }
     }
 
-    if (user) {
-      this.setData({ nickname: user.nickname || '我' });
-    }
+    const isPaired = !!(couple && couple.start_date);
+    this.setData({ isPaired, nickname: user?.nickname || '我' });
 
-    if (couple) {
-      const startDate = new Date(couple.start_date);
-      const days = Math.floor((Date.now() - startDate.getTime()) / 86400000);
-      this.setData({
-        daysTogether: days,
-        startDate,
-        // 下一个纪念日倒计时
-        const now = new Date();
-        let nextAnniv = new Date(now.getFullYear(), startDate.getMonth(), startDate.getDate());
-        if (nextAnniv <= now) nextAnniv.setFullYear(nextAnniv.getFullYear() + 1);
-        const anniversaryDays = Math.ceil((nextAnniv - now) / 86400000);
+    if (!isPaired) return; // 未配对时不加载计时器数据
 
-        this.setData({
-          daysTogether: days,
-          startDate,
-          startDateStr: `${startDate.getFullYear()}.${String(startDate.getMonth()+1).padStart(2,'0')}.${String(startDate.getDate()).padStart(2,'0')}`,
-          dailyQuote: QUOTES[days % QUOTES.length],
-          anniversary: anniversaryDays,
-        });
+    const startDate = new Date(couple.start_date);
+    const days = Math.floor((Date.now() - startDate.getTime()) / 86400000);
 
-      // 对方信息
-      try {
-        const partnerId = couple.user1_id === user.id ? couple.user2_id : couple.user1_id;
-        if (partnerId) {
-          const partnerRes = await supabase.from('profiles').select('nickname,mood_emoji').eq('id', partnerId).fetch();
-          const partner = Array.isArray(partnerRes) ? partnerRes[0] : partnerRes;
+    // 下一个纪念日倒计时
+    const now = new Date();
+    let nextAnniv = new Date(now.getFullYear(), startDate.getMonth(), startDate.getDate());
+    if (nextAnniv <= now) nextAnniv.setFullYear(nextAnniv.getFullYear() + 1);
+    const anniversaryDays = Math.ceil((nextAnniv - now) / 86400000);
+
+    this.setData({
+      daysTogether: days,
+      startDate,
+      startDateStr: `${startDate.getFullYear()}.${String(startDate.getMonth()+1).padStart(2,'0')}.${String(startDate.getDate()).padStart(2,'0')}`,
+      dailyQuote: QUOTES[days % QUOTES.length],
+      anniversary: anniversaryDays,
+    });
+
+    // 对方信息
+    try {
+      const partnerId = couple.user1_id === user.id ? couple.user2_id : couple.user1_id;
+      if (partnerId) {
+        const partnerRes = await supabase.from('profiles').select('nickname,mood_emoji').eq('id', partnerId).fetch();
+        const partner = Array.isArray(partnerRes) ? partnerRes[0] : partnerRes;
+        if (partner) {
           this.setData({ partnerName: partner.nickname || 'TA', partnerMood: partner.mood_emoji || '😊' });
         }
-      } catch (e) { /* ignore */ }
-    }
+      }
+    } catch (e) { /* ignore */ }
 
-    // 获取纸条未读数
-    if (user) {
-      try {
-        const notes = await supabase.from('note').select('id,is_read').eq('to_user_id', user.id).eq('is_read', 'false').fetch();
-        this.setData({ unreadCount: notes?.length || 0 });
-      } catch (e) { /* ignore */ }
+    // 纸条未读数
+    try {
+      const notes = await supabase.from('note').select('id,is_read').eq('to_user_id', user.id).eq('is_read', 'false').fetch();
+      this.setData({ unreadCount: notes?.length || 0 });
+    } catch (e) { /* ignore */ }
+  },
+
+  // ========== 配对逻辑 ==========
+  switchPairTab(e) {
+    this.setData({ pairTab: parseInt(e.currentTarget.dataset.tab) });
+  },
+
+  bindPairDateChange(e) {
+    this.setData({ pairStartDate: e.detail.value });
+  },
+
+  onJoinCodeInput(e) {
+    this.setData({ joinCode: e.detail.value });
+  },
+
+  async createPair() {
+    const userId = app.globalData.currentUser?.id;
+    if (!userId) return wx.showToast({ title: '请先登录', icon: 'none' });
+    this.setData({ isCreating: true });
+
+    try {
+      logger.start('[Home] createPair', { userId });
+      const code = String(100000 + Math.floor(Math.random() * 900000));
+      const expiry = new Date(Date.now() + 3 * 60000).toISOString();
+
+      const result = await supabase.from('couple').insert({
+        start_date: this.data.pairStartDate,
+        user1_id: userId,
+        pair_code: code,
+        pair_code_expiry: expiry,
+      }).fetch();
+
+      const coupleId = Array.isArray(result) ? result[0]?.id : result?.id;
+      await supabase.from('profiles').update({ couple_id: coupleId }).eq('id', userId).fetch();
+
+      app.globalData.couple = Array.isArray(result) ? result[0] : result;
+      app.globalData.isPaired = true;
+
+      logger.log('[Home] createPair 成功', { pairCode: code });
+      this.setData({ pairCode: code, hasCreated: true, isCreating: false });
+    } catch (e) {
+      logger.error('[Home] createPair', e);
+      wx.showToast({ title: '创建失败', icon: 'none' });
+      this.setData({ isCreating: false });
     }
   },
 
+  // 对方加入后刷新
+  async checkPairDone() {
+    const coupleId = app.globalData.couple?.id;
+    if (!coupleId) return;
+    try {
+      const res = await supabase.from('couple').select('*').eq('id', coupleId).fetch();
+      const c = Array.isArray(res) ? res[0] : res;
+      if (c && c.user2_id) {
+        app.globalData.couple = c;
+        app.globalData.isPaired = true;
+        wx.showToast({ title: '对方已加入!', icon: 'success' });
+        this.setData({ isPaired: true });
+        this.initData();
+      } else {
+        wx.showToast({ title: '对方还没加入', icon: 'none' });
+      }
+    } catch (e) { /* ignore */ }
+  },
+
+  copyCode() {
+    wx.setClipboardData({ data: this.data.pairCode });
+  },
+
+  async joinPair() {
+    const code = this.data.joinCode.trim();
+    const userId = app.globalData.currentUser?.id;
+    if (code.length !== 6) return wx.showToast({ title: '请输入6位配对码', icon: 'none' });
+    if (!userId) return wx.showToast({ title: '请先登录', icon: 'none' });
+
+    try {
+      logger.start('[Home] joinPair', { code });
+      const res = await supabase.from('couple').select('*').eq('pair_code', code).fetch();
+      if (!res || res.length === 0) throw new Error('配对码无效');
+      const couple = res[0];
+      if (couple.user1_id === userId) throw new Error('不能和自己配对');
+      if (new Date(couple.pair_code_expiry) < new Date()) throw new Error('配对码已过期');
+      if (couple.user2_id) throw new Error('该关系已有两人');
+
+      await supabase.from('couple').update({ user2_id: userId }).eq('id', couple.id).fetch();
+      await supabase.from('profiles').update({ couple_id: couple.id }).eq('id', userId).fetch();
+
+      app.globalData.couple = couple;
+      app.globalData.isPaired = true;
+      logger.log('[Home] joinPair 成功');
+
+      wx.showToast({ title: '配对成功!', icon: 'success' });
+      this.setData({ isPaired: true });
+      this.initData();
+    } catch (e) {
+      logger.error('[Home] joinPair', e);
+      wx.showToast({ title: e.message || '加入失败', icon: 'none' });
+    }
+  },
+
+  goScan() { wx.navigateTo({ url: '/pages/scan/scan' }); },
+
+  // ========== 已配对功能 ==========
   refreshQuote() {
     this.setData({ dailyQuote: QUOTES[Math.floor(Math.random() * QUOTES.length)] });
   },
@@ -104,7 +218,6 @@ Page({
   goAnniversary() { wx.navigateTo({ url: '/pages/anniversary/anniversary' }); },
   goCompose() { wx.navigateTo({ url: '/pages/note-compose/note-compose' }); },
 
-  // 退出登录
   logout() {
     wx.showModal({ title: '切换账号', content: '确定要重新设置吗？', success: (res) => {
       if (res.confirm) {
