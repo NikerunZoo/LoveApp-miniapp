@@ -154,6 +154,7 @@
 .code { color: white; font-size: 88rpx; font-weight: 200; letter-spacing: 20rpx; display: block; margin: 24rpx 0; }
 .code-hint { color: rgba(255,255,255,0.5); font-size: 24rpx; display: block; }
 .code-actions { text-align: center; }
+.code-waiting { display: block; margin-top: 24rpx; font-size: 26rpx; color: #8E9AAF; text-align: center; }
 
 /* 配对码输入 */
 .code-input {

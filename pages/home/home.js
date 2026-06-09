@@ -104,12 +104,43 @@ Page({
       app.globalData.isPaired = true;
       logger.log('[Home] createPair 成功', { pairCode: code });
       this.setData({ pairCode: code, hasCreated: true, isCreating: false });
+      this._startPolling();
     } catch (e) {
       logger.error('[Home] createPair', e);
       wx.showToast({ title: '创建失败', icon: 'none' });
       this.setData({ isCreating: false });
     }
   },
+
+  _startPolling() {
+    this._stopPolling();
+    this._pollTimer = setInterval(() => this._pollCheck(), 3000);
+  },
+
+  _stopPolling() {
+    if (this._pollTimer) { clearInterval(this._pollTimer); this._pollTimer = null; }
+  },
+
+  async _pollCheck() {
+    const coupleId = app.globalData.couple?.id;
+    if (!coupleId) return;
+    try {
+      const res = await supabase.from('couple').select('user2_id').eq('id', coupleId).fetch();
+      const c = Array.isArray(res) ? res[0] : res;
+      if (c && c.user2_id) {
+        this._stopPolling();
+        const full = await supabase.from('couple').select('*').eq('id', coupleId).fetch();
+        app.globalData.couple = Array.isArray(full) ? full[0] : full;
+        app.globalData.isPaired = true;
+        wx.showToast({ title: '💕 对方已加入!', icon: 'success' });
+        this.setData({ isPaired: true, hasCreated: false });
+        this.initData();
+      }
+    } catch (e) { /* ignore */ }
+  },
+
+  onHide() { this._stopPolling(); },
+  onUnload() { this._stopPolling(); },
 
   async checkPairDone() {
     const coupleId = app.globalData.couple?.id;
@@ -118,6 +149,7 @@ Page({
       const res = await supabase.from('couple').select('*').eq('id', coupleId).fetch();
       const c = Array.isArray(res) ? res[0] : res;
       if (c && c.user2_id) {
+        this._stopPolling();
         app.globalData.couple = c; app.globalData.isPaired = true;
         wx.showToast({ title: '对方已加入!', icon: 'success' });
         this.setData({ isPaired: true }); this.initData();

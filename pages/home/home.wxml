@@ -28,7 +28,7 @@
         </view>
         <view class="code-actions">
           <button class="btn-outline" bindtap="copyCode">复制配对码</button>
-          <button class="btn-primary" bindtap="checkPairDone" style="margin-top:16rpx;">刷新状态</button>
+          <text class="code-waiting">⏳ 等待对方加入...（每3秒自动检测）</text>
         </view>
       </block>
     </view>
