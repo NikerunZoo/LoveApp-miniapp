@@ -3,7 +3,7 @@
   <view class="profile-header">
     <view class="profile-avatar" bindtap="toggleDebug">{{avatarLetter}}</view>
     <text class="profile-nickname">{{nickname}}</text>
-    <text class="profile-id" bindtap="toggleDebug">ID: {{userIdShort}}</text>
+    <text class="profile-id">ID: {{userIdShort}}</text>
   </view>
 
   <!-- 配对信息 -->
@@ -59,6 +59,29 @@
       </view>
     </view>
   </block>
+
+  <!-- 调试开关 -->
+  <view class="profile-section-title">
+    🛠 调试工具
+    <switch checked="{{showDebug}}" bindchange="toggleDebug" style="float:right;transform:scale(0.8);" />
+  </view>
+  <view wx:if="{{showDebug}}" class="profile-menu">
+    <view class="profile-item" bindtap="copyUuid">
+      <text class="profile-item-icon">📋</text>
+      <text class="profile-item-text">复制当前 UUID</text>
+      <text class="profile-item-arrow">›</text>
+    </view>
+    <view class="profile-item" bindtap="showSwitch">
+      <text class="profile-item-icon">🔄</text>
+      <text class="profile-item-text">切换到指定 UUID</text>
+      <text class="profile-item-arrow">›</text>
+    </view>
+    <view class="profile-item profile-item-danger" bindtap="createNewAccount">
+      <text class="profile-item-icon">🆕</text>
+      <text class="profile-item-text">创建新账号（测试配对用）</text>
+      <text class="profile-item-arrow">›</text>
+    </view>
+  </view>
 
   <!-- 切换账号 -->
   <view class="profile-section-title">账号</view>

@@ -24,7 +24,7 @@
         <view class="code-box">
           <text class="code-label">你的配对码</text>
           <text class="code">{{pairCode}}</text>
-          <text class="code-hint">3 分钟内有效 · 等对方输入</text>
+          <text class="code-hint">30 分钟内有效 · 等对方输入</text>
         </view>
         <view class="code-actions">
           <button class="btn-outline" bindtap="copyCode">复制配对码</button>

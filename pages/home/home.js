@@ -94,7 +94,7 @@ Page({
     this.setData({ isCreating: true });
     try {
       const code = String(100000 + Math.floor(Math.random() * 900000));
-      const expiry = new Date(Date.now() + 3 * 60000).toISOString();
+      const expiry = new Date(Date.now() + 30 * 60000).toISOString();
       const result = await supabase.from('couple').insert({
         start_date: this.data.pairStartDate, user1_id: userId, pair_code: code, pair_code_expiry: expiry,
       }).fetch();

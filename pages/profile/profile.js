@@ -12,9 +12,8 @@ Page({
     partnerName: 'TA',
     unreadCount: 0,
 
-    // 调试模式（连续点头像3次）
-    showDebug: false,
-    _debugTapCount: 0,
+    // 调试模式（直接可见）
+    showDebug: true,
 
     // 修改昵称弹窗
     showEditModal: false,
@@ -52,15 +51,9 @@ Page({
     }
   },
 
-  // 切换调试模式：连续点头像3次
+  // 切换调试模式
   toggleDebug() {
-    this.data._debugTapCount++;
-    if (this.data._debugTapCount >= 3) {
-      this.data._debugTapCount = 0;
-      this.setData({ showDebug: !this.data.showDebug });
-      wx.showToast({ title: this.data.showDebug ? '调试模式已开启' : '调试模式已关闭', icon: 'none' });
-    }
-    setTimeout(() => { this.data._debugTapCount = 0; }, 1500);
+    this.setData({ showDebug: !this.data.showDebug });
   },
 
   // ========== 修改昵称 ==========
