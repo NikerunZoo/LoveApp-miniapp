@@ -6,7 +6,12 @@ const app = getApp();
 Page({
   data: { tab: 0, received: [], sent: [], starred: [], loading: true },
 
-  onShow() { this.load(); },
+  onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 1 });
+    }
+    this.load();
+  },
 
   async load() {
     const userId = app.globalData.currentUser?.id;

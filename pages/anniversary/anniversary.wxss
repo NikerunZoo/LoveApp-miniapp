@@ -36,3 +36,58 @@
   color: white; padding: 12rpx 24rpx; border-radius: 24rpx;
   font-size: 24rpx; white-space: nowrap;
 }
+
+/* ---- 弹窗 ---- */
+.modal-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-box {
+  background: white;
+  border-radius: 32rpx;
+  padding: 48rpx 40rpx 32rpx;
+  width: 580rpx;
+}
+.modal-title { font-size: 34rpx; font-weight: 600; color: #2D3E4F; display: block; text-align: center; margin-bottom: 32rpx; }
+.modal-input {
+  background: #F7F9FC;
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+  font-size: 30rpx;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 20rpx;
+}
+.modal-date-picker {
+  background: #F7F9FC;
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+  font-size: 30rpx;
+  text-align: center;
+  color: #2D3E4F;
+  margin-bottom: 8rpx;
+}
+.modal-btns { display: flex; gap: 20rpx; margin-top: 28rpx; }
+.modal-btn-cancel {
+  flex: 1;
+  background: #F0F4F8;
+  color: #8E9AAF;
+  border-radius: 999rpx;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  border: none;
+}
+.modal-btn-confirm {
+  flex: 1;
+  background: linear-gradient(135deg, #7EC8E3, #5BA4C0);
+  color: white;
+  border-radius: 999rpx;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  border: none;
+}

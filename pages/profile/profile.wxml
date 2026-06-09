@@ -1,0 +1,99 @@
+<view class="profile-page">
+  <!-- 用户头部 -->
+  <view class="profile-header">
+    <view class="profile-avatar" bindtap="toggleDebug">{{avatarLetter}}</view>
+    <text class="profile-nickname">{{nickname}}</text>
+    <text class="profile-id" bindtap="toggleDebug">ID: {{userIdShort}}</text>
+  </view>
+
+  <!-- 配对信息 -->
+  <view wx:if="{{isPaired}}" class="profile-couple-bar" bindtap="goAnniversary">
+    <text class="couple-emoji">💕</text>
+    <text class="couple-text">与 {{partnerName}} 配对中</text>
+    <text class="couple-arrow">›</text>
+  </view>
+  <view wx:else class="profile-couple-bar profile-couple-none">
+    <text class="couple-emoji">💑</text>
+    <text class="couple-text">尚未配对，回首页创建</text>
+  </view>
+
+  <!-- 菜单 -->
+  <view class="profile-menu">
+    <view class="profile-item" bindtap="editNickname">
+      <text class="profile-item-icon">✏️</text>
+      <text class="profile-item-text">修改昵称</text>
+      <text class="profile-item-arrow">›</text>
+    </view>
+    <view class="profile-item" bindtap="goAnniversary">
+      <text class="profile-item-icon">⏰</text>
+      <text class="profile-item-text">纪念日</text>
+      <view class="profile-item-badge" wx:if="{{!isPaired}}">需配对</view>
+      <text class="profile-item-arrow">›</text>
+    </view>
+    <view class="profile-item" bindtap="goAlbum">
+      <text class="profile-item-icon">📸</text>
+      <text class="profile-item-text">回忆墙</text>
+      <view class="profile-item-badge" wx:if="{{!isPaired}}">需配对</view>
+      <text class="profile-item-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 调试菜单 -->
+  <block wx:if="{{showDebug}}">
+    <view class="profile-section-title">🛠 调试工具</view>
+    <view class="profile-menu">
+      <view class="profile-item" bindtap="copyUuid">
+        <text class="profile-item-icon">📋</text>
+        <text class="profile-item-text">复制当前 UUID</text>
+        <text class="profile-item-arrow">›</text>
+      </view>
+      <view class="profile-item" bindtap="showSwitch">
+        <text class="profile-item-icon">🔄</text>
+        <text class="profile-item-text">切换到指定 UUID</text>
+        <text class="profile-item-arrow">›</text>
+      </view>
+      <view class="profile-item profile-item-danger" bindtap="createNewAccount">
+        <text class="profile-item-icon">🆕</text>
+        <text class="profile-item-text">创建新账号</text>
+        <text class="profile-item-arrow">›</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- 切换账号 -->
+  <view class="profile-section-title">账号</view>
+  <view class="profile-menu">
+    <view class="profile-item profile-item-danger" bindtap="logout">
+      <text class="profile-item-icon">🚪</text>
+      <text class="profile-item-text">切换账号</text>
+      <text class="profile-item-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 修改昵称弹窗 -->
+  <view wx:if="{{showEditModal}}" class="modal-mask" bindtap="cancelEditNickname">
+    <view class="modal-box" catchtap="noop">
+      <text class="modal-title">修改昵称</text>
+      <input class="modal-input" value="{{editNicknameValue}}" bindinput="onEditNickInput" maxlength="20" placeholder="输入新昵称" focus />
+      <view class="modal-btns">
+        <button class="modal-btn-cancel" bindtap="cancelEditNickname">取消</button>
+        <button class="modal-btn-confirm" bindtap="confirmEditNickname">确定</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 切换 UUID 弹窗 -->
+  <view wx:if="{{showSwitchModal}}" class="modal-mask" bindtap="cancelSwitchUuid">
+    <view class="modal-box" catchtap="noop">
+      <text class="modal-title">切换 UUID</text>
+      <text class="switch-hint">粘贴之前保存的 UUID</text>
+      <input class="modal-input" value="{{switchUuidValue}}" bindinput="onSwitchUuidInput" maxlength="36" placeholder="粘贴 UUID" focus />
+      <view class="modal-btns">
+        <button class="modal-btn-cancel" bindtap="cancelSwitchUuid">取消</button>
+        <button class="modal-btn-confirm" bindtap="confirmSwitchUuid">切换</button>
+      </view>
+    </view>
+  </view>
+
+  <view style="height:140rpx;"></view>
+</view>

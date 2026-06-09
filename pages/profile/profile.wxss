@@ -1,0 +1,150 @@
+.profile-page { min-height: 100vh; background: #F7F9FC; }
+
+/* ---- 头部 ---- */
+.profile-header {
+  background: linear-gradient(155deg, #6DB8D4 0%, #7EC8E3 25%, #A8D8EA 60%, #C5E8F3 100%);
+  padding: 100rpx 40rpx 48rpx;
+  border-radius: 0 0 48rpx 48rpx;
+  position: relative;
+  overflow: hidden;
+}
+.profile-header::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -20%;
+  width: 360rpx;
+  height: 360rpx;
+  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.profile-avatar {
+  width: 104rpx;
+  height: 104rpx;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48rpx;
+  color: white;
+  margin-bottom: 16rpx;
+  position: relative;
+  z-index: 1;
+}
+.profile-nickname {
+  color: white;
+  font-size: 40rpx;
+  font-weight: 600;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+.profile-id {
+  color: rgba(255,255,255,0.4);
+  font-size: 22rpx;
+  display: block;
+  margin-top: 6rpx;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- 配对栏 ---- */
+.profile-couple-bar {
+  display: flex;
+  align-items: center;
+  margin: -28rpx 28rpx 24rpx;
+  background: white;
+  border-radius: 28rpx;
+  padding: 24rpx 28rpx;
+  box-shadow: 0 6rpx 28rpx rgba(126,200,227,0.12);
+  position: relative;
+  z-index: 2;
+}
+.profile-couple-none { opacity: 0.6; }
+.couple-emoji { font-size: 36rpx; margin-right: 12rpx; }
+.couple-text { flex: 1; font-size: 28rpx; color: #2D3E4F; }
+.couple-arrow { font-size: 36rpx; color: #B0BEC5; }
+
+/* ---- 分组标题 ---- */
+.profile-section-title {
+  font-size: 24rpx;
+  color: #B0BEC5;
+  padding: 20rpx 40rpx 12rpx;
+}
+
+/* ---- 菜单 ---- */
+.profile-menu {
+  margin: 0 28rpx;
+  background: white;
+  border-radius: 28rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 16rpx rgba(126,200,227,0.06);
+}
+.profile-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 28rpx;
+  border-bottom: 2rpx solid #F7F9FC;
+  transition: background 0.15s;
+}
+.profile-item:last-child { border-bottom: none; }
+.profile-item:active { background: #F7F9FC; }
+.profile-item-icon { font-size: 36rpx; margin-right: 20rpx; width: 44rpx; text-align: center; }
+.profile-item-text { flex: 1; font-size: 30rpx; color: #2D3E4F; }
+.profile-item-arrow { font-size: 32rpx; color: #CCC; }
+.profile-item-badge {
+  font-size: 22rpx;
+  color: #8E9AAF;
+  background: #F0F4F8;
+  padding: 4rpx 16rpx;
+  border-radius: 16rpx;
+  margin-right: 12rpx;
+}
+.profile-item-danger .profile-item-text { color: #FF6B8A; }
+
+/* ---- 弹窗 ---- */
+.modal-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-box {
+  background: white;
+  border-radius: 32rpx;
+  padding: 48rpx 40rpx 32rpx;
+  width: 580rpx;
+}
+.modal-title { font-size: 34rpx; font-weight: 600; color: #2D3E4F; display: block; text-align: center; margin-bottom: 28rpx; }
+.modal-input {
+  background: #F7F9FC;
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+  font-size: 30rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+.switch-hint { font-size: 24rpx; color: #8E9AAF; display: block; text-align: center; margin-top: -16rpx; margin-bottom: 20rpx; }
+.modal-btns { display: flex; gap: 20rpx; margin-top: 28rpx; }
+.modal-btn-cancel {
+  flex: 1;
+  background: #F0F4F8;
+  color: #8E9AAF;
+  border-radius: 999rpx;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  border: none;
+}
+.modal-btn-confirm {
+  flex: 1;
+  background: linear-gradient(135deg, #7EC8E3, #5BA4C0);
+  color: white;
+  border-radius: 999rpx;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  border: none;
+}

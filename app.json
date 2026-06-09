@@ -1,12 +1,13 @@
 {
   "pages": [
+    "pages/home/home",
+    "pages/note/note",
+    "pages/diary/diary",
+    "pages/profile/profile",
     "pages/index/index",
     "pages/setup/setup",
     "pages/pair/pair",
-    "pages/home/home",
-    "pages/diary/diary",
     "pages/diary-compose/diary-compose",
-    "pages/note/note",
     "pages/note-compose/note-compose",
     "pages/album/album",
     "pages/anniversary/anniversary",
@@ -18,6 +19,19 @@
     "navigationBarTitleText": "属于我们",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#FFFFFF"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#B0BEC5",
+    "selectedColor": "#7EC8E3",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/home/home", "text": "首页" },
+      { "pagePath": "pages/note/note", "text": "纸条" },
+      { "pagePath": "pages/diary/diary", "text": "日记" },
+      { "pagePath": "pages/profile/profile", "text": "我的" }
+    ]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

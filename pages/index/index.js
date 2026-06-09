@@ -56,8 +56,8 @@ Page({
         }
       }
 
-      // 无论是否已配对，统一进首页
-      setTimeout(() => wx.redirectTo({ url: '/pages/home/home' }), 1000);
+      // 无论是否已配对，统一进首页（首页是 Tab 页，用 switchTab）
+      setTimeout(() => wx.switchTab({ url: '/pages/home/home' }), 1000);
     } catch (e) {
       logger.error('[Splash] 恢复失败', e);
       setTimeout(() => wx.redirectTo({ url: '/pages/setup/setup' }), 1000);

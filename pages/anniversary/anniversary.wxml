@@ -1,27 +1,61 @@
 <view class="anniv-scroll">
   <!-- 我们在一起主卡片 -->
-  <view class="main-card" bindtap="editStartDate">
+  <view class="main-card" bindtap="showEdit">
     <text class="main-emoji">💕</text>
     <text class="main-title">我们在一起</text>
     <text class="main-date">{{startDateStr}}</text>
-    <text class="main-edit">✏️ 修改日期</text>
+    <text class="main-edit">✏️ 点此修改日期</text>
     <view class="main-stats">
       <view class="main-stat"><text class="main-stat-val">第 {{yearCount}} 年</text><text class="main-stat-lbl">在一起</text></view>
       <view class="main-stat"><text class="main-stat-val">还剩 {{daysToNext}} 天</text><text class="main-stat-lbl">下一个纪念日</text></view>
     </view>
   </view>
 
-  <!-- 自定义纪念日 -->
-  <block wx:if="{{loading}}"><view class="empty-state"><text class="emoji">⏰</text><text class="title">加载中...</text></view></block>
+  <!-- 自定义纪念日列表 -->
+  <block wx:if="{{loading}}">
+    <view class="empty-state"><text class="emoji">⏰</text><text class="title">加载中...</text></view>
+  </block>
   <block wx:for="{{anniversaries}}" wx:key="id">
     <view class="anniv-item" data-item="{{item}}" bindlongpress="deleteItem">
       <text class="anniv-emoji">🎉</text>
-      <view class="anniv-info"><text class="anniv-name">{{item.title}}</text><text class="anniv-date-str">{{item.date}}</text></view>
-      <view class="anniv-days-badge">还剩 XX 天</view>
+      <view class="anniv-info">
+        <text class="anniv-name">{{item.title}}</text>
+        <text class="anniv-date-str">{{item.date}}</text>
+      </view>
+      <view class="anniv-days-badge">还剩 {{item.daysLeft}} 天</view>
     </view>
   </block>
 
-  <button class="btn-outline" style="margin-top:20rpx;" bindtap="add">+ 添加纪念日</button>
+  <button class="btn-outline" style="margin-top:20rpx;" bindtap="showAdd">+ 添加纪念日</button>
   <view class="hint-text" wx:if="{{anniversaries.length>0}}">💡 长按可删除</view>
   <view style="height:80rpx;"></view>
+
+  <!-- 编辑纪念日弹窗 -->
+  <view wx:if="{{showEditModal}}" class="modal-mask" bindtap="cancelEdit">
+    <view class="modal-box" catchtap="noop">
+      <text class="modal-title">修改纪念日</text>
+      <picker mode="date" value="{{editDateValue}}" bindchange="onEditDateChange">
+        <view class="modal-date-picker">{{editDateValue || '选择日期'}}</view>
+      </picker>
+      <view class="modal-btns">
+        <button class="modal-btn-cancel" bindtap="cancelEdit">取消</button>
+        <button class="modal-btn-confirm" bindtap="confirmEdit">确定</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 添加纪念日弹窗 -->
+  <view wx:if="{{showAddModal}}" class="modal-mask" bindtap="cancelAdd">
+    <view class="modal-box" catchtap="noop">
+      <text class="modal-title">添加纪念日</text>
+      <input class="modal-input" value="{{addTitleValue}}" bindinput="onAddTitleInput" maxlength="20" placeholder="名称，如：她生日" />
+      <picker mode="date" value="{{addDateValue}}" bindchange="onAddDateChange">
+        <view class="modal-date-picker">{{addDateValue || '选择日期'}}</view>
+      </picker>
+      <view class="modal-btns">
+        <button class="modal-btn-cancel" bindtap="cancelAdd">取消</button>
+        <button class="modal-btn-confirm" bindtap="confirmAdd">确定</button>
+      </view>
+    </view>
+  </view>
 </view>

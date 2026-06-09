@@ -1,5 +1,5 @@
 <view class="home">
-  <!-- ==================== 未配对：顶部展示配对卡片 ==================== -->
+  <!-- ========== 未配对：配对卡片 ========== -->
   <block wx:if="{{!isPaired}}">
     <view class="pair-header">
       <view class="pair-glow"></view>
@@ -13,7 +13,6 @@
       <view class="tab {{pairTab===1?'active':''}}" data-tab="1" bindtap="switchPairTab">加入配对</view>
     </view>
 
-    <!-- 创建配对 -->
     <view wx:if="{{pairTab===0}}" class="pair-card">
       <block wx:if="{{!hasCreated}}">
         <picker mode="date" value="{{pairStartDate}}" bindchange="bindPairDateChange">
@@ -34,7 +33,6 @@
       </block>
     </view>
 
-    <!-- 加入配对 -->
     <view wx:if="{{pairTab===1}}" class="pair-card">
       <input class="code-input" type="number" maxlength="6" placeholder="输入 6 位配对码" value="{{joinCode}}" bindinput="onJoinCodeInput" />
       <button class="btn-primary" bindtap="joinPair">加入配对</button>
@@ -42,7 +40,7 @@
     </view>
   </block>
 
-  <!-- ==================== 已配对：计时器头部 ==================== -->
+  <!-- ========== 已配对：计时器 + 信息卡 ========== -->
   <block wx:else>
     <view class="timer-section">
       <view class="timer-glow"></view>
@@ -59,10 +57,10 @@
 
     <!-- 三列信息卡 -->
     <view class="info-strip">
-      <view class="info-item">
+      <view class="info-item" bindtap="goAnniversary">
         <text class="info-emoji">🎂</text>
         <text class="info-value">{{anniversary}}天</text>
-        <text class="info-label">纪念日</text>
+        <text class="info-label">距纪念日</text>
       </view>
       <view class="info-divider"></view>
       <view class="info-item">
@@ -79,54 +77,21 @@
     </view>
   </block>
 
-  <!-- ==================== 共同区域：心情 + 情话 + 入口 ==================== -->
-  <!-- 心情选择 -->
+  <!-- ========== 心情选择 ========== -->
   <view class="section-title">✨ 今天的心情</view>
   <view class="mood-grid">
     <view wx:for="{{['😍','😊','🥰','😐','😔','😤','😴','🎉']}}" wx:key="*this"
       class="mood-chip {{moodEmoji === item ? 'active' : ''}}" data-mood="{{item}}" bindtap="setMood">{{item}}</view>
   </view>
 
-  <!-- 每日情话 -->
+  <!-- ========== 每日情话 ========== -->
   <view class="quote-card">
     <view class="quote-inner">
       <text class="quote-icon">💌</text>
       <text class="quote-text">{{dailyQuote}}</text>
-      <view class="quote-refresh" bindtap="refreshQuote">
-        <text>🔄 换一句</text>
-      </view>
+      <view class="quote-refresh" bindtap="refreshQuote"><text>🔄 换一句</text></view>
     </view>
   </view>
 
-  <!-- 功能入口 -->
-  <view class="section-title">📋 我们的故事</view>
-  <view class="nav-grid">
-    <view class="nav-card" bindtap="goDiary">
-      <view class="nav-icon-wrap"><text class="nav-icon">📝</text></view>
-      <text class="nav-title">恋爱日记</text>
-      <text class="nav-desc">记录甜蜜日常</text>
-    </view>
-    <view class="nav-card" bindtap="goNote">
-      <view class="nav-icon-wrap">
-        <text class="nav-icon">💌</text>
-        <view wx:if="{{unreadCount > 0}}" class="nav-badge">{{unreadCount}}</view>
-      </view>
-      <text class="nav-title">小纸条</text>
-      <text class="nav-desc">{{unreadCount > 0 ? '未读 ' + unreadCount : '收发纸条'}}</text>
-    </view>
-    <view class="nav-card" bindtap="goAlbum">
-      <view class="nav-icon-wrap"><text class="nav-icon">📸</text></view>
-      <text class="nav-title">回忆墙</text>
-      <text class="nav-desc">我们的照片</text>
-    </view>
-    <view class="nav-card" bindtap="goAnniversary">
-      <view class="nav-icon-wrap"><text class="nav-icon">⏰</text></view>
-      <text class="nav-title">纪念日</text>
-      <text class="nav-desc">重要日子提醒</text>
-    </view>
-  </view>
-
-  <!-- 底部退出 -->
-  <view class="logout-link" bindtap="logout">切换账号</view>
-  <view style="height:120rpx;"></view>
+  <view style="height:140rpx;"></view>
 </view>

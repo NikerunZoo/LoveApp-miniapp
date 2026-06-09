@@ -6,7 +6,12 @@ const app = getApp();
 Page({
   data: { entries: [], loading: true },
 
-  onShow() { this.load(); },
+  onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 2 });
+    }
+    this.load();
+  },
 
   async load() {
     const coupleId = app.globalData.couple?.id;
