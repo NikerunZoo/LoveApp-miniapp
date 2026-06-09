@@ -29,5 +29,5 @@
   </block>
 
   <view class="fab" bindtap="goCompose">✏️</view>
-  <view style="height:120rpx;"></view>
+  <view style="height:180rpx;"></view>
 </view>

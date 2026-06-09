@@ -15,5 +15,5 @@
   </block>
   <view class="hint-text" wx:if="{{entries.length>0}}">💡 长按日记可删除</view>
   <view class="fab" bindtap="goCompose">✏️</view>
-  <view style="height:120rpx;"></view>
+  <view style="height:180rpx;"></view>
 </view>

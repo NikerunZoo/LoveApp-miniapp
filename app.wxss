@@ -124,7 +124,7 @@ page {
 /* ===== 浮动按钮 ===== */
 .fab {
   position: fixed;
-  bottom: 100rpx;
+  bottom: 160rpx;
   right: 40rpx;
   width: 104rpx;
   height: 104rpx;

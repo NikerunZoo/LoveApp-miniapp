@@ -60,27 +60,6 @@
     </view>
   </block>
 
-  <block wx:if="{{showDebug}}">
-    <view class="profile-section-title">🛠 调试工具</view>
-  </block>
-  <view wx:if="{{showDebug}}" class="profile-menu">
-    <view class="profile-item" bindtap="copyUuid">
-      <text class="profile-item-icon">📋</text>
-      <text class="profile-item-text">复制当前 UUID</text>
-      <text class="profile-item-arrow">›</text>
-    </view>
-    <view class="profile-item" bindtap="showSwitch">
-      <text class="profile-item-icon">🔄</text>
-      <text class="profile-item-text">切换到指定 UUID</text>
-      <text class="profile-item-arrow">›</text>
-    </view>
-    <view class="profile-item profile-item-danger" bindtap="createNewAccount">
-      <text class="profile-item-icon">🆕</text>
-      <text class="profile-item-text">创建新账号（测试配对用）</text>
-      <text class="profile-item-arrow">›</text>
-    </view>
-  </view>
-
   <!-- 切换账号 -->
   <view class="profile-section-title">账号</view>
   <view class="profile-menu">
